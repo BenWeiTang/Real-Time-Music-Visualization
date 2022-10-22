@@ -95,7 +95,7 @@ bool RTMV::LoadBuffer()
 	}
 	m_SampleCount = file.getSampleCount();
 	m_SampleRate = file.getSampleRate() * file.getChannelCount();
-	m_CoefScaleFactor = m_SampleRate / m_BufferSize;
+	m_CoefScaleFactor = (double)m_SampleRate / m_BufferSize;
 
 	// Heap allocate an array of 16-bit int to store the samples
 	// Keep reading from the target file until all samples are read
