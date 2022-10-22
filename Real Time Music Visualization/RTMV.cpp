@@ -15,6 +15,7 @@
 
 RTMV::RTMV() :
 	m_BufferSize(BUFFER_SIZE),
+	m_HalfBufferSize(BUFFER_SIZE>>1),
 	m_SampleRate(0),
 	m_Samples(nullptr),
 	m_SampleCount(0),
@@ -161,11 +162,11 @@ void RTMV::STFT()
 {
 	// Copy desired range from m_Samples and apply Hann window function
 	// Mag => real part; 0 => imaginary part
-	if (m_CurrentOffset + m_BufferSize < m_SampleCount)
+	if (m_CurrentOffset + m_HalfBufferSize < m_SampleCount && m_CurrentOffset > m_HalfBufferSize)
 	{
 		for (int i = 0; i < m_BufferSize; i++)
 		{
-			m_WindowedSamples[i] = Complex(m_Samples[i+m_CurrentOffset]*m_Hann[i], 0);
+			m_WindowedSamples[i] = Complex(m_Samples[i+m_CurrentOffset-m_HalfBufferSize]*m_Hann[i], 0);
 		}
 		
 	}

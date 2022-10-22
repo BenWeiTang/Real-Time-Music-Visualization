@@ -14,6 +14,7 @@ class RTMV
 {
 private:
 	unsigned int m_BufferSize;
+	unsigned int m_HalfBufferSize;
 	unsigned int m_SampleRate;
 	sf::Int16* m_Samples;
 	sf::Uint64 m_SampleCount;
