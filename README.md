@@ -1,4 +1,4 @@
-# Real-Time-Music-Visualization
+# Real Time Music Visualization
 
 This project is currently work in progress.
 
