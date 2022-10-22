@@ -7,8 +7,8 @@
 #include "Note.hpp"
 #include "tinyfiledialogs.hpp"
 
-#define BUFFER_SIZE 32768
-//#define BUFFER_SIZE 16384
+//#define BUFFER_SIZE 32768
+#define BUFFER_SIZE 16384
 #define HOP_SIZE 1024
 #define SCREEN_WIDTH 900
 #define SCREEN_HEIGHT 900
