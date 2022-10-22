@@ -396,3 +396,14 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Exclude audio files
+*.wav
+
+# Exclude image file
+*.png
+*.jpg
+*.jepg
+
+*.vcxproj
+*.vcxproj.filters
