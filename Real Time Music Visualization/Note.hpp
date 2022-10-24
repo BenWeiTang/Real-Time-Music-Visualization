@@ -7,9 +7,7 @@
 class Note
 {
 public:
-	Note(const double& freq,
-		const sf::Vector2f& startPosition,
-		const sf::Vector2f& velocity);
+	Note(const double& freq, const sf::Vector2f& startPosition);
 	void Update();
 	const Pitch::Pitch& GetPitch() const;
 	const sf::CircleShape& GetCircleShape() const;  //TODO: Remove later
@@ -19,7 +17,7 @@ private:
 	const siv::PerlinNoise::seed_type c_Seed;
 	const siv::PerlinNoise c_Perlin;
 	sf::Vector2f m_Position;
-	sf::Vector2f m_velocity;
+	sf::Vector2f m_Velocity;
 	sf::CircleShape m_CircleShape; //TODO: Remove later
 
 	static const Pitch::Pitch IdentityPitch(double freq);
