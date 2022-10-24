@@ -28,6 +28,8 @@ private:
 	std::vector<Complex> m_WindowedSamples;
 	CArray m_Coefficients;
 	double m_CoefScaleFactor;
+	unsigned int m_maxFreqLowBound;
+	unsigned int m_maxFreqHighBound;
 
 	sf::VertexArray VA2;
 

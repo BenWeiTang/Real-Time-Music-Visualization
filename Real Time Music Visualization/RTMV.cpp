@@ -30,6 +30,8 @@ RTMV::RTMV() :
 	m_CurrentOffset(0),
 	m_WindowedSamples(BUFFER_SIZE),
 	m_CoefScaleFactor(0),
+	m_maxFreqLowBound(0),
+	m_maxFreqHighBound(0),
 	VA2(sf::VertexArray(sf::Lines))
 {
 	m_Window.setFramerateLimit(60);
@@ -96,6 +98,8 @@ bool RTMV::LoadBuffer()
 	m_SampleCount = file.getSampleCount();
 	m_SampleRate = file.getSampleRate() * file.getChannelCount();
 	m_CoefScaleFactor = (double)m_SampleRate / m_BufferSize;
+	m_maxFreqHighBound = 20 * m_BufferSize / m_SampleRate;
+	m_maxFreqLowBound = m_BufferSize * std::min(20000u, m_HalfBufferSize) / m_SampleRate;
 
 	// Heap allocate an array of 16-bit int to store the samples
 	// Keep reading from the target file until all samples are read
@@ -224,11 +228,9 @@ void RTMV::FFT(CArray& x)
 // Returns the frequency with the largest amplitude
 double RTMV::MaxFreq()
 {
-	int maxIndex = 0;
+	int maxIndex = -1;
 	double maxAmp = -1.0;
-	unsigned int lowBound = 20 * m_BufferSize / m_SampleRate;
-	unsigned int hightBound = m_BufferSize * std::min(20000u, m_BufferSize / 2) / m_SampleRate;
-	for (int i = lowBound; i < hightBound; i++)
+	for (int i = m_maxFreqLowBound; i < m_maxFreqHighBound; i++)
 	{
 		double currentAmp = std::abs(m_Coefficients[i]);
 		if (currentAmp > maxAmp)
