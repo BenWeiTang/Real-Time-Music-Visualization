@@ -29,8 +29,8 @@ RTMV::RTMV() :
 	m_Hann(BUFFER_SIZE),
 	m_CurrentOffset(0),
 	m_WindowedSamples(BUFFER_SIZE),
-	m_CoefScaleFactor(0),
-	VA2(sf::VertexArray(sf::Lines))
+	m_CoefScaleFactor(0)
+	//VA2(sf::VertexArray(sf::Lines))
 {
 	m_Window.setFramerateLimit(60);
 }
@@ -245,19 +245,19 @@ void RTMV::Draw()
 {
 	m_Window.clear();
 
-	VA2.clear();
-	sf::Vector2f position(0, 800);
-	for (float i = 3; i < std::min(m_BufferSize/2.f, 20000.f); i*=1.01f)
-	{
-		float max = 100000000;
-		sf::Vector2f samplePosition(std::log(i)/std::log(std::min(m_BufferSize/2.f,20000.f)), 
-			std::abs(m_Coefficients[(int)i]));
-		VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, -samplePosition.y/max*1000), sf::Color::White));
-		VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
-		VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
-		VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
-	}
-	m_Window.draw(VA2);
+	//VA2.clear();
+	//sf::Vector2f position(0, 800);
+	//for (float i = 3; i < std::min(m_BufferSize/2.f, 20000.f); i*=1.01f)
+	//{
+	//	float max = 100000000;
+	//	sf::Vector2f samplePosition(std::log(i)/std::log(std::min(m_BufferSize/2.f,20000.f)), 
+	//		std::abs(m_Coefficients[(int)i]));
+	//	VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, -samplePosition.y/max*1000), sf::Color::White));
+	//	VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
+	//	VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
+	//	VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
+	//}
+	//m_Window.draw(VA2);
 
 	m_Window.display();
 }

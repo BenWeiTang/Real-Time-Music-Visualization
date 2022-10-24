@@ -33,7 +33,6 @@ private:
 	unsigned int m_maxFreqHighBound;
 	std::vector<Note> m_Notes;
 
-	//sf::VertexArray VA2;
 
 public:
 	RTMV();
