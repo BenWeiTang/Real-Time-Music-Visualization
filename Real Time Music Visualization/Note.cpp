@@ -1,7 +1,7 @@
 #include "Note.hpp"
 
-Note::Note(const Pitch::Pitch& pitch, const sf::Vector2f& startPosition, const sf::Vector2f& velocity)
-	: c_Pitch(pitch), c_Seed(time(0)), c_Perlin({ c_Seed }), m_Position(startPosition), m_velocity(velocity), m_CircleShape(100.f, 30u) //TODO: Delete this CircleShape
+Note::Note(const double& freq, const sf::Vector2f& startPosition, const sf::Vector2f& velocity)
+	: c_Pitch(IdentityPitch(freq)), c_Seed(time(0)), c_Perlin({ c_Seed }), m_Position(startPosition), m_velocity(velocity), m_CircleShape(100.f, 30u) //TODO: Delete this CircleShape
 {
 	m_CircleShape.setPosition(m_Position);
 }

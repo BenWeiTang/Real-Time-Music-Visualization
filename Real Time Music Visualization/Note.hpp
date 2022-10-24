@@ -7,7 +7,7 @@
 class Note
 {
 public:
-	Note(const Pitch::Pitch& pitch,
+	Note(const double& freq,
 		const sf::Vector2f& startPosition,
 		const sf::Vector2f& velocity);
 	void Update();
