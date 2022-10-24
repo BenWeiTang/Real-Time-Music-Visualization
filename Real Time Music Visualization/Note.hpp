@@ -11,7 +11,7 @@ public:
 		const sf::Vector2f& startPosition,
 		const sf::Vector2f& velocity);
 	void Update();
-	const sf::CircleShape& GetCircleShape() const;
+	const sf::CircleShape& GetCircleShape() const;  //TODO: Remove later
 
 private:
 	const Pitch::Pitch c_Pitch;
