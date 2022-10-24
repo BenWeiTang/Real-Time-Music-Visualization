@@ -4,7 +4,6 @@
 #include <iostream>
 #include <vector>
 #include "RTMV.hpp"
-#include "Note.hpp"
 #include "tinyfiledialogs.hpp"
 
 //#define BUFFER_SIZE 32768
@@ -31,8 +30,8 @@ RTMV::RTMV() :
 	m_WindowedSamples(BUFFER_SIZE),
 	m_CoefScaleFactor(0),
 	m_maxFreqLowBound(0),
-	m_maxFreqHighBound(0),
-	VA2(sf::VertexArray(sf::Lines))
+	m_maxFreqHighBound(0)
+	//VA2(sf::VertexArray(sf::Lines))
 {
 	m_Window.setFramerateLimit(60);
 }
@@ -100,6 +99,7 @@ bool RTMV::LoadBuffer()
 	m_CoefScaleFactor = (double)m_SampleRate / m_BufferSize;
 	m_maxFreqHighBound = 20 * m_BufferSize / m_SampleRate;
 	m_maxFreqLowBound = m_BufferSize * std::min(20000u, m_HalfBufferSize) / m_SampleRate;
+	//m_Notes.reserve(m_SampleCount); //m_SampleCount is too large for reserve
 
 	// Heap allocate an array of 16-bit int to store the samples
 	// Keep reading from the target file until all samples are read
@@ -157,7 +157,6 @@ void RTMV::HandleHopping()
 		m_CurrentOffset = currentPosition;
 		STFT();
 		Draw();
-		//MaxFreq();
 	}
 }
 
@@ -225,6 +224,37 @@ void RTMV::FFT(CArray& x)
 	}
 }
 
+void RTMV::Draw()
+{
+	m_Window.clear();
+
+	//double maxFreq = MaxFreq();
+	float xPosition = SCREEN_WIDTH * m_Sound.getPlayingOffset().asSeconds() / m_SoundBuffer.getDuration().asSeconds();
+	m_Notes.emplace_back(Pitch::Pitch::A, sf::Vector2f(xPosition , 400.f), sf::Vector2f(0.f, 10.f));
+
+	for (auto& note : m_Notes)
+	{
+		note.Update();
+		m_Window.draw(note.GetCircleShape());
+	}
+
+	//VA2.clear();
+	//sf::Vector2f position(0, 800);
+	//for (float i = 3; i < std::min(m_BufferSize/2.f, 20000.f); i*=1.01f)
+	//{
+	//	float max = 100000000;
+	//	sf::Vector2f samplePosition(std::log(i)/std::log(std::min(m_BufferSize/2.f,20000.f)), 
+	//		std::abs(m_Coefficients[(int)i]));
+	//	VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, -samplePosition.y/max*1000), sf::Color::White));
+	//	VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
+	//	VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
+	//	VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
+	//}
+	//m_Window.draw(VA2);
+
+	m_Window.display();
+}
+
 // Returns the frequency with the largest amplitude
 double RTMV::MaxFreq()
 {
@@ -241,25 +271,4 @@ double RTMV::MaxFreq()
 	}
 	double maxFreq = maxIndex * m_CoefScaleFactor;
 	return maxFreq;
-}
-
-void RTMV::Draw()
-{
-	m_Window.clear();
-
-	VA2.clear();
-	sf::Vector2f position(0, 800);
-	for (float i = 3; i < std::min(m_BufferSize/2.f, 20000.f); i*=1.01f)
-	{
-		float max = 100000000;
-		sf::Vector2f samplePosition(std::log(i)/std::log(std::min(m_BufferSize/2.f,20000.f)), 
-			std::abs(m_Coefficients[(int)i]));
-		VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, -samplePosition.y/max*1000), sf::Color::White));
-		VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
-		VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
-		VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
-	}
-	m_Window.draw(VA2);
-
-	m_Window.display();
 }

@@ -11,6 +11,7 @@ public:
 		const sf::Vector2f& startPosition,
 		const sf::Vector2f& velocity);
 	void Update();
+	const sf::CircleShape& GetCircleShape() const;
 
 private:
 	const Pitch::Pitch c_Pitch;
@@ -18,4 +19,5 @@ private:
 	const siv::PerlinNoise c_Perlin;
 	sf::Vector2f m_Position;
 	sf::Vector2f m_velocity;
+	sf::CircleShape m_CircleShape; //TODO: Remove later
 };

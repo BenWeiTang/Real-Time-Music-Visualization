@@ -6,6 +6,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include "Note.hpp"
 
 typedef std::complex<double> Complex;
 typedef std::valarray<Complex> CArray;
@@ -30,8 +31,9 @@ private:
 	double m_CoefScaleFactor;
 	unsigned int m_maxFreqLowBound;
 	unsigned int m_maxFreqHighBound;
+	std::vector<Note> m_Notes;
 
-	sf::VertexArray VA2;
+	//sf::VertexArray VA2;
 
 public:
 	RTMV();
@@ -47,6 +49,6 @@ private:
 	void HandleHopping();
 	void STFT();
 	void FFT(CArray& x);
-	double MaxFreq();
 	void Draw();
+	double MaxFreq();
 };
