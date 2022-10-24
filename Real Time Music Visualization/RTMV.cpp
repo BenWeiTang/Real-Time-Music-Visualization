@@ -224,11 +224,11 @@ void RTMV::FFT(CArray& x)
 // Returns the frequency with the largest amplitude
 double RTMV::MaxFreq()
 {
-	int maxIndex = 0;
+	int maxIndex = -1;
 	double maxAmp = -1.0;
-	unsigned int lowBound = 20 * m_BufferSize / m_SampleRate;
-	unsigned int hightBound = m_BufferSize * std::min(20000u, m_BufferSize / 2) / m_SampleRate;
-	for (int i = lowBound; i < hightBound; i++)
+	static const int lowBound = 20 * m_BufferSize / m_SampleRate;
+	static const int highBound = m_BufferSize * std::min(20000u, m_HalfBufferSize) / m_SampleRate;
+	for (int i = lowBound; i < highBound; i++)
 	{
 		double currentAmp = std::abs(m_Coefficients[i]);
 		if (currentAmp > maxAmp)
