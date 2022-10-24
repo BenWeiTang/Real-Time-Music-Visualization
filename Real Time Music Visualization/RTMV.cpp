@@ -153,7 +153,6 @@ void RTMV::HandleHopping()
 		m_CurrentOffset = currentPosition;
 		STFT();
 		Draw();
-		//MaxFreq();
 	}
 }
 
