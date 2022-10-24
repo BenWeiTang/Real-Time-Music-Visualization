@@ -16,6 +16,11 @@ void Note::Update()
 	m_CircleShape.setPosition(m_Position); //TODO: delete later
 }
 
+const Pitch::Pitch& Note::GetPitch() const
+{
+	return c_Pitch;
+}
+
 const sf::CircleShape& Note::GetCircleShape() const
 {
 	return m_CircleShape;
