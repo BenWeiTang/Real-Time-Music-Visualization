@@ -11,6 +11,11 @@ Note::Note(const double& freq, const sf::Vector2f& startPosition)
 	m_CircleShape.setPosition(m_Position);
 }
 
+const Note& Note::operator=(const Note& rhs) const
+{
+	return rhs;
+}
+
 bool Note::operator==(const Note& rhs) const
 {
 	// Perfect unisons at the same spot is considered as same
