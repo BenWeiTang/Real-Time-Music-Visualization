@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Note.hpp"
+#include "NotePool.hpp"
 
 typedef std::complex<double> Complex;
 typedef std::valarray<Complex> CArray;
@@ -30,7 +31,7 @@ private:
 	std::vector<Complex> m_WindowedSamples;
 	CArray m_Coefficients;
 	double m_CoefScaleFactor;
-	std::deque<Note> m_Notes;
+	NotePool m_Notes;
 	sf::VertexArray m_Lines;
 
 

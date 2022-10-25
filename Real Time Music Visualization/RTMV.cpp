@@ -31,8 +31,8 @@ RTMV::RTMV() :
 	m_CurrentOffset(0),
 	m_WindowedSamples(BUFFER_SIZE),
 	m_CoefScaleFactor(0),
+	m_Notes(POOL_SIZE),
 	m_Lines(sf::VertexArray(sf::Lines))
-	//VA2(sf::VertexArray(sf::Lines))
 {
 	m_Window.setFramerateLimit(60);
 }
@@ -44,9 +44,6 @@ RTMV::~RTMV()
 
 void RTMV::Begin()
 {
-	//Note note(Pitch::A, sf::Vector2f(0.f, 0.f), sf::Vector2f(0.f, 0.f));
-	//note.Update();
-
 	InitHannTable();
 
 	if (!FindAudioFile())
@@ -269,30 +266,23 @@ void RTMV::UpdateNotes()
 {
 	float xPosition = SCREEN_WIDTH * 0.85 * (m_Sound.getPlayingOffset().asSeconds() / m_SoundBuffer.getDuration().asSeconds());
 	float yPosition = SCREEN_HEIGHT * 0.5;
-	m_Notes.emplace_back(MaxFreq(), sf::Vector2f(xPosition, yPosition));
+	Note newNote(MaxFreq(), sf::Vector2f(xPosition, yPosition));
+	m_Notes.EmplaceBack(newNote);
 
-	for (auto& note : m_Notes)
-	{
-		note.Update();
-	}
-
-	while (m_Notes.size() > POOL_SIZE)
-		m_Notes.pop_front();
-
-	std::cout << m_Notes.size() << std::endl;
+	std::cout << "Max Size: " << m_Notes.GetMaxSize() << ", Size: " << m_Notes.GetSize() << ", End Index: " << m_Notes.GetEndIndex() << std::endl;
 }
 
 // Looping through deque is very expensive
 void RTMV::CaptureIntervals()
 {
-	for (const auto& note : m_Notes)
-	{
-		for (const auto& other : m_Notes)
-		{
-			if (note == other)
-				continue;
-			m_Lines.append(sf::Vertex(note.GetPosition(), sf::Color::White));
-			m_Lines.append(sf::Vertex(other.GetPosition(), sf::Color::White));
-		}
-	}
+	//for (const auto& note : m_Notes)
+	//{
+	//	for (const auto& other : m_Notes)
+	//	{
+	//		if (note == other)
+	//			continue;
+	//		m_Lines.append(sf::Vertex(note.GetPosition(), sf::Color::White));
+	//		m_Lines.append(sf::Vertex(other.GetPosition(), sf::Color::White));
+	//	}
+	//}
 }
