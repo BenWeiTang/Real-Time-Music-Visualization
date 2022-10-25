@@ -11,6 +11,7 @@ public:
 	bool operator==(const Note& rhs) const;
 	void Update();
 	const Pitch::Pitch& GetPitch() const;
+	const sf::Vector2f& GetPosition() const;
 	const sf::CircleShape& GetCircleShape() const;  //TODO: Remove later
 
 private:

@@ -31,6 +31,11 @@ const Pitch::Pitch& Note::GetPitch() const
 	return c_Pitch;
 }
 
+const sf::Vector2f& Note::GetPosition() const
+{
+	return m_Position;
+}
+
 const sf::CircleShape& Note::GetCircleShape() const
 {
 	return m_CircleShape;
