@@ -4,6 +4,7 @@
 #include <valarray>
 #include <unordered_map>
 #include <vector>
+#include <deque>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Note.hpp"
@@ -29,7 +30,8 @@ private:
 	std::vector<Complex> m_WindowedSamples;
 	CArray m_Coefficients;
 	double m_CoefScaleFactor;
-	std::vector<Note> m_Notes;
+	std::deque<Note> m_Notes;
+	sf::VertexArray m_Lines;
 
 
 public:
@@ -46,6 +48,8 @@ private:
 	void HandleHopping();
 	void STFT();
 	void FFT(CArray& x);
-	void Draw();
 	double MaxFreq();
+	void Draw();
+	void UpdateNotes();
+	void CaptureIntervals();
 };

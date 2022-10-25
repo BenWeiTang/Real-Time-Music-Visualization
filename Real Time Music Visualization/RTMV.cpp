@@ -12,6 +12,7 @@
 #define HOP_SIZE 1024
 #define SCREEN_WIDTH 900
 #define SCREEN_HEIGHT 900
+#define POOL_SIZE 25
 
 RTMV::RTMV() :
 	m_BufferSize(BUFFER_SIZE),
@@ -29,7 +30,8 @@ RTMV::RTMV() :
 	m_Hann(BUFFER_SIZE),
 	m_CurrentOffset(0),
 	m_WindowedSamples(BUFFER_SIZE),
-	m_CoefScaleFactor(0)
+	m_CoefScaleFactor(0),
+	m_Lines(sf::VertexArray(sf::Lines))
 	//VA2(sf::VertexArray(sf::Lines))
 {
 	m_Window.setFramerateLimit(60);
@@ -152,6 +154,8 @@ void RTMV::HandleHopping()
 	{
 		m_CurrentOffset = currentPosition;
 		STFT();
+		UpdateNotes();
+		CaptureIntervals();
 		Draw();
 	}
 }
@@ -259,4 +263,36 @@ void RTMV::Draw()
 	//m_Window.draw(VA2);
 
 	m_Window.display();
+}
+
+void RTMV::UpdateNotes()
+{
+	float xPosition = SCREEN_WIDTH * 0.85 * (m_Sound.getPlayingOffset().asSeconds() / m_SoundBuffer.getDuration().asSeconds());
+	float yPosition = SCREEN_HEIGHT * 0.5;
+	m_Notes.emplace_back(MaxFreq(), sf::Vector2f(xPosition, yPosition));
+
+	for (auto& note : m_Notes)
+	{
+		note.Update();
+	}
+
+	while (m_Notes.size() > POOL_SIZE)
+		m_Notes.pop_front();
+
+	std::cout << m_Notes.size() << std::endl;
+}
+
+// Looping through deque is very expensive
+void RTMV::CaptureIntervals()
+{
+	for (const auto& note : m_Notes)
+	{
+		for (const auto& other : m_Notes)
+		{
+			if (note == other)
+				continue;
+			m_Lines.append(sf::Vertex(note.GetPosition(), sf::Color::White));
+			m_Lines.append(sf::Vertex(other.GetPosition(), sf::Color::White));
+		}
+	}
 }
