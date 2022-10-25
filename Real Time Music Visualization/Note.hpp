@@ -8,6 +8,7 @@ class Note
 {
 public:
 	Note(const double& freq, const sf::Vector2f& startPosition);
+	bool operator==(const Note& rhs) const;
 	void Update();
 	const Pitch::Pitch& GetPitch() const;
 	const sf::CircleShape& GetCircleShape() const;  //TODO: Remove later

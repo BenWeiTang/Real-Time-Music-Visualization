@@ -11,6 +11,12 @@ Note::Note(const double& freq, const sf::Vector2f& startPosition)
 	m_CircleShape.setPosition(m_Position);
 }
 
+bool Note::operator==(const Note& rhs) const
+{
+	// Perfect unisons at the same spot is considered as same
+	return c_Pitch == rhs.c_Pitch && m_Position == rhs.m_Position;
+}
+
 void Note::Update()
 {
 	// Reference: https://github.com/Reputeless/PerlinNoise
