@@ -6,7 +6,7 @@ class NotePool
 {
 public:
 	NotePool(size_t n);
-	void EmplaceBack(const Note& note);
+	void EmplaceBack(Note&& note);
 	unsigned int GetMaxSize();
 	unsigned int GetSize();
 	unsigned int GetEndIndex();

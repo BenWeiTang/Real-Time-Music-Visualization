@@ -266,8 +266,7 @@ void RTMV::UpdateNotes()
 {
 	float xPosition = SCREEN_WIDTH * 0.85 * (m_Sound.getPlayingOffset().asSeconds() / m_SoundBuffer.getDuration().asSeconds());
 	float yPosition = SCREEN_HEIGHT * 0.5;
-	Note newNote(MaxFreq(), sf::Vector2f(xPosition, yPosition));
-	m_Notes.EmplaceBack(newNote);
+	m_Notes.EmplaceBack(Note(MaxFreq(), sf::Vector2f(xPosition, yPosition)));
 
 	std::cout << "Max Size: " << m_Notes.GetMaxSize() << ", Size: " << m_Notes.GetSize() << ", End Index: " << m_Notes.GetEndIndex() << std::endl;
 }

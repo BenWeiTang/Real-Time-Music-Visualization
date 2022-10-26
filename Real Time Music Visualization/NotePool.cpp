@@ -8,7 +8,7 @@ NotePool::NotePool(size_t poolSize) :
 	m_Notes.reserve(poolSize + 1);
 }
 
-void NotePool::EmplaceBack(const Note& note)
+void NotePool::EmplaceBack(Note&& note)
 {
 	m_Notes[m_EndIndex] = note;
 	m_EndIndex++;
