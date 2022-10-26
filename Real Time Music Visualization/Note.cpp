@@ -11,7 +11,7 @@ Note::Note(const double& freq, const sf::Vector2f& startPosition)
 	m_CircleShape.setPosition(m_Position);
 }
 
-const Note& Note::operator=(const Note& rhs) const
+Note& Note::operator=(Note& rhs)
 {
 	return rhs;
 }
