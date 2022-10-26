@@ -8,7 +8,8 @@ class Note
 {
 public:
 	Note(const double& freq, const sf::Vector2f& startPosition);
-	Note& operator=(Note& rhs);
+	Note(Note&& other) noexcept; // Move contructor
+	Note& operator=(Note&& other) noexcept; // Move assignment operator
 	bool operator==(const Note& rhs) const;
 	void Update();
 	const Pitch::Pitch& GetPitch() const;
@@ -16,9 +17,9 @@ public:
 	const sf::CircleShape& GetCircleShape() const;  //TODO: Remove later
 
 private:
-	const Pitch::Pitch c_Pitch;
-	const siv::PerlinNoise::seed_type c_Seed;
-	const siv::PerlinNoise c_Perlin;
+	Pitch::Pitch m_Pitch;
+	siv::PerlinNoise::seed_type m_Seed;
+	siv::PerlinNoise m_Perlin;
 	sf::Vector2f m_Position;
 	sf::Vector2f m_Velocity;
 	sf::CircleShape m_CircleShape; //TODO: Remove later

@@ -2,30 +2,47 @@
 #include "Note.hpp"
 
 Note::Note(const double& freq, const sf::Vector2f& startPosition)
-	: c_Pitch(IdentityPitch(freq)), c_Seed(time(0)), c_Perlin({ c_Seed }), m_Position(startPosition), m_CircleShape(100.f, 30u) //TODO: Delete this CircleShape
+	: m_Pitch(IdentityPitch(freq)), m_Seed(time(0)), m_Perlin({ m_Seed }), m_Position(startPosition), m_CircleShape(100.f, 30u) //TODO: Delete this CircleShape
 {
-	double initialY = c_Perlin.noise1D(m_Position.x);
+	double initialY = m_Perlin.noise1D(m_Position.x);
 	initialY *= 0.5; // Down scale by half
 	initialY += 0.5 * (initialY > 0) - 0.5 * (initialY < 0); // Shift right by 0.5 if positive; shift left by 0.5 if negative; 0.5 < abs(initialY) < 1.0
 	m_Velocity = sf::Vector2f(0.f, (float)initialY); // Randomly go up or down, no lateral movement yet.
 	m_CircleShape.setPosition(m_Position);
 }
 
-Note& Note::operator=(Note& rhs)
+// Move constructor
+Note::Note(Note&& other) noexcept { *this = std::move(other); }
+
+// Move assign operator
+Note& Note::operator=(Note&& other) noexcept
 {
-	return rhs;
+	if (this != &other)
+	{
+		// Currently no memories to release before assignment
+
+		m_Pitch = other.m_Pitch;
+		m_Seed = other.m_Seed;
+		m_Perlin = other.m_Perlin;
+		m_Position = other.m_Position;
+		m_Velocity = other.m_Velocity;
+		m_CircleShape = other.m_CircleShape;
+
+		// Currently no dangling pointers to wrap up
+	}
+	return *this;
 }
 
 bool Note::operator==(const Note& rhs) const
 {
 	// Perfect unisons at the same spot is considered as same
-	return c_Pitch == rhs.c_Pitch && m_Position == rhs.m_Position;
+	return m_Pitch == rhs.m_Pitch && m_Position == rhs.m_Position;
 }
 
 void Note::Update()
 {
 	// Reference: https://github.com/Reputeless/PerlinNoise
-	m_Velocity.x += c_Perlin.noise1D(m_Position.y);
+	m_Velocity.x += m_Perlin.noise1D(m_Position.y);
 	m_Position += m_Velocity;
 
 	m_CircleShape.setPosition(m_Position); //TODO: delete later
@@ -33,7 +50,7 @@ void Note::Update()
 
 const Pitch::Pitch& Note::GetPitch() const
 {
-	return c_Pitch;
+	return m_Pitch;
 }
 
 const sf::Vector2f& Note::GetPosition() const
@@ -48,6 +65,7 @@ const sf::CircleShape& Note::GetCircleShape() const
 
 const Pitch::Pitch Note::IdentityPitch(double freq)
 {
+	//FIXME: freq lower than 440 may give negative numbers
 	int keyNum = std::round(12*std::log2(freq/440.0)); // A will be 0, A# will be 1, ... 
 	keyNum %= 12;
 	switch (keyNum)
