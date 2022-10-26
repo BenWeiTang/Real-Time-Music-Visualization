@@ -9,10 +9,10 @@
 
 //#define BUFFER_SIZE 32768
 #define BUFFER_SIZE 16384
-#define HOP_SIZE 1024
+#define HOP_SIZE 4096
 #define SCREEN_WIDTH 900
 #define SCREEN_HEIGHT 900
-#define POOL_SIZE 128
+#define POOL_SIZE 512
 
 RTMV::RTMV() :
 	m_BufferSize(BUFFER_SIZE),
@@ -244,52 +244,35 @@ double RTMV::MaxFreq()
 void RTMV::Draw()
 {
 	m_Window.clear();
-
-	//VA2.clear();
-	//sf::Vector2f position(0, 800);
-	//for (float i = 3; i < std::min(m_BufferSize/2.f, 20000.f); i*=1.01f)
-	//{
-	//	float max = 100000000;
-	//	sf::Vector2f samplePosition(std::log(i)/std::log(std::min(m_BufferSize/2.f,20000.f)), 
-	//		std::abs(m_Coefficients[(int)i]));
-	//	VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, -samplePosition.y/max*1000), sf::Color::White));
-	//	VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
-	//	VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
-	//	VA2.append(sf::Vertex(position+sf::Vector2f(samplePosition.x*800, 0), sf::Color::White));
-	//}
-	//m_Window.draw(VA2);
-
+	m_Window.draw(m_Lines);
 	m_Window.display();
+	m_Lines.clear();
 }
 
 void RTMV::UpdateNotes()
 {
 	float xPosition = SCREEN_WIDTH * 0.85 * (m_Sound.getPlayingOffset().asSeconds() / m_SoundBuffer.getDuration().asSeconds());
 	float yPosition = SCREEN_HEIGHT * 0.5;
-	if (m_Notes.GetSize() < m_Notes.GetMaxSize())
-	{
-		m_Notes.EmplaceBack(Note(MaxFreq(), sf::Vector2f(xPosition, yPosition)));
-	}
-	else
-	{
-		//for (auto& note : m_Notes)
-		//	std::cout << note.GetPitch() << std::endl;
-	}
-
-	//std::cout << "Max Size: " << m_Notes.GetMaxSize() << ", Size: " << m_Notes.GetSize() << ", End Index: " << m_Notes.GetEndIndex() << std::endl;
+	m_Notes.EmplaceBack(Note(MaxFreq(), sf::Vector2f(xPosition, yPosition)));
+	for (auto& note : m_Notes)
+		note.Update();
 }
 
 // Looping through deque is very expensive
 void RTMV::CaptureIntervals()
 {
-	//for (const auto& note : m_Notes)
-	//{
-	//	for (const auto& other : m_Notes)
-	//	{
-	//		if (note == other)
-	//			continue;
-	//		m_Lines.append(sf::Vertex(note.GetPosition(), sf::Color::White));
-	//		m_Lines.append(sf::Vertex(other.GetPosition(), sf::Color::White));
-	//	}
-	//}
+	for (const auto& note : m_Notes)
+	{
+		for (const auto& other : m_Notes)
+		{
+			float noteX = note.GetPosition().x;
+			float noteY = note.GetPosition().y;
+			float otherX = other.GetPosition().x;
+			float otherY = other.GetPosition().y;
+			if (note == other || std::abs(noteX - otherX) > 50.f || std::abs(noteY - otherY) > 50.f)
+				continue;
+			m_Lines.append(sf::Vertex(note.GetPosition(), sf::Color::White));
+			m_Lines.append(sf::Vertex(other.GetPosition(), sf::Color::White));
+		}
+	}
 }

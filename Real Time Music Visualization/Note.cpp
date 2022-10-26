@@ -42,7 +42,7 @@ bool Note::operator==(const Note& rhs) const
 void Note::Update()
 {
 	// Reference: https://github.com/Reputeless/PerlinNoise
-	m_Velocity.x += m_Perlin.noise1D(m_Position.y);
+	m_Velocity.x += 0.05f * m_Perlin.noise1D(m_Position.y);
 	m_Position += m_Velocity;
 
 	m_CircleShape.setPosition(m_Position); //TODO: delete later
