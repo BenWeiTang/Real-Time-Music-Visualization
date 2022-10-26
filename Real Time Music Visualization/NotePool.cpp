@@ -5,8 +5,11 @@ NotePool::NotePool(size_t poolSize) :
 	m_Size(0),
 	m_EndIndex(0)
 {
-	m_Notes.reserve(poolSize + 1);
+	// No default constructor for Note type so juse use malloc
+	m_Notes = (Note*)malloc(sizeof(Note) * poolSize);
 }
+
+NotePool::~NotePool() { free(m_Notes); }
 
 void NotePool::EmplaceBack(Note&& note)
 {
