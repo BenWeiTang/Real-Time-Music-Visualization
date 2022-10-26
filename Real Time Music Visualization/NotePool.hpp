@@ -12,6 +12,7 @@ public:
 		Iterator operator++();
 		bool operator!=(const Iterator& other) const;
 		const Note& operator*() const;
+		Note& operator*();
 	private:
 		Note* m_ptr;
 		Note* m_InitialStart; // Inclusive

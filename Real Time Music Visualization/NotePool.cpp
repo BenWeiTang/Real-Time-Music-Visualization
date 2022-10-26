@@ -14,6 +14,8 @@ bool NotePool::Iterator::operator!=(const NotePool::Iterator& other) const { ret
 
 const Note& NotePool::Iterator::operator*() const { return *m_ptr; }
 
+Note& NotePool::Iterator::operator*() { return *m_ptr; }
+
 NotePool::NotePool(size_t poolSize) :
 	m_MaxSize(poolSize),
 	m_Size(0),
