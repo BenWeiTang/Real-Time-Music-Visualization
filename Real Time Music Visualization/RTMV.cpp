@@ -12,7 +12,7 @@
 #define HOP_SIZE 1024
 #define SCREEN_WIDTH 900
 #define SCREEN_HEIGHT 900
-#define POOL_SIZE 25
+#define POOL_SIZE 128
 
 RTMV::RTMV() :
 	m_BufferSize(BUFFER_SIZE),
@@ -266,9 +266,17 @@ void RTMV::UpdateNotes()
 {
 	float xPosition = SCREEN_WIDTH * 0.85 * (m_Sound.getPlayingOffset().asSeconds() / m_SoundBuffer.getDuration().asSeconds());
 	float yPosition = SCREEN_HEIGHT * 0.5;
-	m_Notes.EmplaceBack(Note(MaxFreq(), sf::Vector2f(xPosition, yPosition)));
+	if (m_Notes.GetSize() < m_Notes.GetMaxSize())
+	{
+		m_Notes.EmplaceBack(Note(MaxFreq(), sf::Vector2f(xPosition, yPosition)));
+	}
+	else
+	{
+		//for (auto& note : m_Notes)
+		//	std::cout << note.GetPitch() << std::endl;
+	}
 
-	std::cout << "Max Size: " << m_Notes.GetMaxSize() << ", Size: " << m_Notes.GetSize() << ", End Index: " << m_Notes.GetEndIndex() << std::endl;
+	//std::cout << "Max Size: " << m_Notes.GetMaxSize() << ", Size: " << m_Notes.GetSize() << ", End Index: " << m_Notes.GetEndIndex() << std::endl;
 }
 
 // Looping through deque is very expensive
