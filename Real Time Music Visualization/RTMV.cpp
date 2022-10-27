@@ -151,6 +151,7 @@ void RTMV::HandleHopping()
 	{
 		m_CurrentOffset = currentPosition;
 		STFT();
+		AddNote();
 		UpdateNotes();
 		CaptureIntervals();
 		Draw();
@@ -221,6 +222,13 @@ void RTMV::FFT(CArray& x)
 	}
 }
 
+void RTMV::AddNote()
+{
+	float xPosition = SCREEN_WIDTH * 0.85 * (m_Sound.getPlayingOffset().asSeconds() / m_SoundBuffer.getDuration().asSeconds());
+	float yPosition = SCREEN_HEIGHT * 0.5;
+	m_Notes.EmplaceBack(Note(MaxFreq(), sf::Vector2f(xPosition, yPosition)));
+}
+
 // Returns the frequency with the largest amplitude
 double RTMV::MaxFreq()
 {
@@ -241,24 +249,12 @@ double RTMV::MaxFreq()
 	return maxFreq;
 }
 
-void RTMV::Draw()
-{
-	m_Window.clear();
-	m_Window.draw(m_Lines);
-	m_Window.display();
-	m_Lines.clear();
-}
-
 void RTMV::UpdateNotes()
 {
-	float xPosition = SCREEN_WIDTH * 0.85 * (m_Sound.getPlayingOffset().asSeconds() / m_SoundBuffer.getDuration().asSeconds());
-	float yPosition = SCREEN_HEIGHT * 0.5;
-	m_Notes.EmplaceBack(Note(MaxFreq(), sf::Vector2f(xPosition, yPosition)));
 	for (auto& note : m_Notes)
 		note.Update();
 }
 
-// Looping through deque is very expensive
 void RTMV::CaptureIntervals()
 {
 	for (const auto& note : m_Notes)
@@ -275,4 +271,12 @@ void RTMV::CaptureIntervals()
 			m_Lines.append(sf::Vertex(other.GetPosition(), sf::Color::White));
 		}
 	}
+}
+
+void RTMV::Draw()
+{
+	m_Window.clear();
+	m_Window.draw(m_Lines);
+	m_Window.display();
+	m_Lines.clear();
 }

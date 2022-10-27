@@ -49,8 +49,9 @@ private:
 	void HandleHopping();
 	void STFT();
 	void FFT(CArray& x);
+	void AddNote();
 	double MaxFreq();
-	void Draw();
 	void UpdateNotes();
 	void CaptureIntervals();
+	void Draw();
 };
