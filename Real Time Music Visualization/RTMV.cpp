@@ -225,7 +225,7 @@ void RTMV::FFT(CArray& x)
 
 void RTMV::AddNote()
 {
-	float xPosition = SCREEN_WIDTH * 0.85 * (m_Sound.getPlayingOffset().asSeconds() / m_SoundBuffer.getDuration().asSeconds());
+	float xPosition = SCREEN_WIDTH * 0.8 * (m_Sound.getPlayingOffset().asSeconds() / m_SoundBuffer.getDuration().asSeconds()) + SCREEN_WIDTH * 0.1;
 	float yPosition = SCREEN_HEIGHT * 0.5;
 	m_Notes.EmplaceBack(Note(MaxFreq(), sf::Vector2f(xPosition, yPosition)));
 }
