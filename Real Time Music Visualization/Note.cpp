@@ -5,7 +5,7 @@
 #define Y_ACCELERATION 0.001f
 
 Note::Note(const double& freq, const sf::Vector2f& startPosition)
-	: m_Pitch(IdentityPitch(freq)), m_Seed(time(0)), m_Perlin({ m_Seed }), m_Position(startPosition), m_CircleShape(100.f, 30u), m_XVelocityScaleFactor(5.f) //TODO: Delete this CircleShape
+	: m_Pitch(IdentityPitch(freq)), m_Seed(time(0)), m_Perlin({ m_Seed }), m_Position(startPosition), m_XVelocityScaleFactor(5.f)
 {
 	double initialY = m_Perlin.noise1D(m_Position.x);
 	initialY *= 0.5; // Down scale by half
@@ -14,7 +14,6 @@ Note::Note(const double& freq, const sf::Vector2f& startPosition)
 	initialX *= 0.75;
 	initialX += 0.25 * (initialX > 0) - 0.25 * (initialX < 0);
 	m_Velocity = sf::Vector2f((float)initialX, (float)initialY); // Randomly go up or down, no lateral movement yet.
-	m_CircleShape.setPosition(m_Position);
 }
 
 // Move constructor
@@ -32,7 +31,6 @@ Note& Note::operator=(Note&& other) noexcept
 		m_Perlin = other.m_Perlin;
 		m_Position = other.m_Position;
 		m_Velocity = other.m_Velocity;
-		m_CircleShape = other.m_CircleShape;
 
 		// Currently no dangling pointers to wrap up
 	}
@@ -53,8 +51,6 @@ void Note::Update()
 	m_Velocity.x += m_XVelocityScaleFactor * m_Perlin.noise1D(m_Position.y);
 	m_Velocity.y += m_Velocity.y > 0 ? Y_ACCELERATION : -Y_ACCELERATION;
 	m_Position += m_Velocity;
-
-	m_CircleShape.setPosition(m_Position); //TODO: delete later
 }
 
 const Pitch::Pitch& Note::GetPitch() const
@@ -65,11 +61,6 @@ const Pitch::Pitch& Note::GetPitch() const
 const sf::Vector2f& Note::GetPosition() const
 {
 	return m_Position;
-}
-
-const sf::CircleShape& Note::GetCircleShape() const
-{
-	return m_CircleShape;
 }
 
 const Pitch::Pitch Note::IdentityPitch(double freq)
