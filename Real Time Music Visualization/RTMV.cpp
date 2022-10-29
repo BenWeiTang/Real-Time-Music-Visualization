@@ -273,7 +273,6 @@ void RTMV::CaptureIntervals()
 {
 	const static int recordTick = 16;
 	static int tick = 0;
-	std::cout << tick << std::endl;
 	for (const auto& note : m_Notes)
 	{
 		for (const auto& other : m_Notes)
