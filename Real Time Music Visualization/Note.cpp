@@ -66,34 +66,33 @@ const sf::CircleShape& Note::GetCircleShape() const
 
 const Pitch::Pitch Note::IdentityPitch(double freq)
 {
-	//FIXME: freq lower than 440 may give negative numbers
-	int keyNum = std::round(12*std::log2(freq/440.0)); // A will be 0, A# will be 1, ... 
+	int keyNum = std::round(12*std::log2(freq/440.0)+49); // A will be 49, A# will be 50, ... 
 	keyNum %= 12;
 	switch (keyNum)
 	{
-	case 0:
-		return Pitch::Pitch::A;
 	case 1:
-		return Pitch::Pitch::b;
+		return Pitch::Pitch::A;
 	case 2:
-		return Pitch::Pitch::B;
+		return Pitch::Pitch::b;
 	case 3:
-		return Pitch::Pitch::C;
+		return Pitch::Pitch::B;
 	case 4:
-		return Pitch::Pitch::d;
+		return Pitch::Pitch::C;
 	case 5:
-		return Pitch::Pitch::D;
+		return Pitch::Pitch::d;
 	case 6:
-		return Pitch::Pitch::e;
+		return Pitch::Pitch::D;
 	case 7:
-		return Pitch::Pitch::E;
+		return Pitch::Pitch::e;
 	case 8:
-		return Pitch::Pitch::F;
+		return Pitch::Pitch::E;
 	case 9:
-		return Pitch::Pitch::g;
+		return Pitch::Pitch::F;
 	case 10:
-		return Pitch::Pitch::G;
+		return Pitch::Pitch::g;
 	case 11:
+		return Pitch::Pitch::G;
+	case 0:
 		return Pitch::Pitch::a;
 	default:
 		break;
