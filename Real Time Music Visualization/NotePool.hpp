@@ -25,13 +25,12 @@ public:
 	Iterator end() const;
 	void EmplaceBack(Note&& note);
 	unsigned int GetMaxSize();
-	unsigned int GetSize();
 	unsigned int GetEndIndex();
 	bool IsReady();
 private:
 	Note* m_Notes;
 	unsigned int m_MaxSize;
-	unsigned int m_Size; //TODO: can be removed later
+	unsigned int m_Size;
 	unsigned int m_EndIndex; // Exclusive
 	bool m_IsReady;
 };

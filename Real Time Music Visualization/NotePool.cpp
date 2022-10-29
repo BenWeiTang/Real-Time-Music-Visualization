@@ -40,12 +40,10 @@ void NotePool::EmplaceBack(Note&& note)
 	m_Notes[m_EndIndex] = std::move(note);
 	m_EndIndex++;
 	m_EndIndex %= m_MaxSize;
-	m_Size = std::min(m_Size + 1, m_MaxSize); //TODO: can be removed later
+	m_Size = std::min(m_Size + 1, m_MaxSize);
 }
 
 unsigned int NotePool::GetMaxSize() { return m_MaxSize; }
-
-unsigned int NotePool::GetSize() { return m_Size; } //TODO: can be removed later
 
 unsigned int NotePool::GetEndIndex() { return m_EndIndex; }
 
