@@ -32,7 +32,8 @@ private:
 	CArray m_Coefficients;
 	double m_CoefScaleFactor;
 	NotePool m_Notes;
-	sf::VertexArray m_Lines;
+	sf::VertexArray m_CurrentLines;
+	sf::VertexArray m_PastLines;
 
 
 public:

@@ -35,7 +35,8 @@ RTMV::RTMV() :
 	m_WindowedSamples(BUFFER_SIZE),
 	m_CoefScaleFactor(0),
 	m_Notes(POOL_SIZE),
-	m_Lines(sf::VertexArray(sf::Lines))
+	m_CurrentLines(sf::VertexArray(sf::Lines)),
+	m_PastLines(sf::VertexArray(sf::Lines))
 {
 	m_Window.setFramerateLimit(60);
 }
@@ -270,6 +271,9 @@ void RTMV::UpdateNotes()
 
 void RTMV::CaptureIntervals()
 {
+	const static int recordTick = 16;
+	static int tick = 0;
+	std::cout << tick << std::endl;
 	for (const auto& note : m_Notes)
 	{
 		for (const auto& other : m_Notes)
@@ -285,16 +289,25 @@ void RTMV::CaptureIntervals()
 
 			const auto interval = Pitch::Interval(note.GetPitch(), other.GetPitch());
 			const auto color = Pitch::GetIntervalColor(interval);
-			m_Lines.append(sf::Vertex(notePosition, color));
-			m_Lines.append(sf::Vertex(midPoint, color));
+			m_CurrentLines.append(sf::Vertex(notePosition, color));
+			m_CurrentLines.append(sf::Vertex(midPoint, color));
+
+			if (tick > recordTick)
+			{
+				m_PastLines.append(sf::Vertex(notePosition, color));
+				m_PastLines.append(sf::Vertex(midPoint, color));
+			}
 		}
 	}
+	if (tick++ > recordTick)
+		tick = 0;
 }
 
 void RTMV::Draw()
 {
 	m_Window.clear();
-	m_Window.draw(m_Lines);
+	m_Window.draw(m_CurrentLines);
+	m_Window.draw(m_PastLines);
 	m_Window.display();
-	m_Lines.clear();
+	m_CurrentLines.clear();
 }
