@@ -262,14 +262,15 @@ void RTMV::CaptureIntervals()
 	{
 		for (const auto& other : m_Notes)
 		{
-			float noteX = note.GetPosition().x;
-			float noteY = note.GetPosition().y;
-			float otherX = other.GetPosition().x;
-			float otherY = other.GetPosition().y;
-			if (note == other || std::abs(noteX - otherX) > 50.f || std::abs(noteY - otherY) > 50.f)
+			const auto& notePosition = note.GetPosition();
+			const auto& otherPosition = other.GetPosition();
+			float noteX = notePosition.x, noteY = notePosition.y;
+			float otherX = otherPosition.x, otherY = otherPosition.y;
+			float distance = std::sqrt(std::pow(noteX - otherX, 2) + std::pow(noteY - otherY, 2));
+			if (note == other || distance > 20.f || distance < 7.5f)
 				continue;
-			m_Lines.append(sf::Vertex(note.GetPosition(), sf::Color::White));
-			m_Lines.append(sf::Vertex(other.GetPosition(), sf::Color::White));
+			m_Lines.append(sf::Vertex(notePosition, sf::Color::Color(255, 255, 255, 64)));
+			m_Lines.append(sf::Vertex(otherPosition, sf::Color::Color(255, 255, 255, 64)));
 		}
 	}
 }
