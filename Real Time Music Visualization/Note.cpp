@@ -1,13 +1,18 @@
 #include <cmath>
 #include "Note.hpp"
 
+#define X_DAMPING -0.001f
+#define Y_ACCELERATION 0.001f
+
 Note::Note(const double& freq, const sf::Vector2f& startPosition)
-	: m_Pitch(IdentityPitch(freq)), m_Seed(time(0)), m_Perlin({ m_Seed }), m_Position(startPosition), m_CircleShape(100.f, 30u) //TODO: Delete this CircleShape
+	: m_Pitch(IdentityPitch(freq)), m_Seed(time(0)), m_Perlin({ m_Seed }), m_Position(startPosition), m_CircleShape(100.f, 30u), m_XVelocityScaleFactor(5.f) //TODO: Delete this CircleShape
 {
 	double initialY = m_Perlin.noise1D(m_Position.x);
 	initialY *= 0.5; // Down scale by half
 	initialY += 0.5 * (initialY > 0) - 0.5 * (initialY < 0); // Shift right by 0.5 if positive; shift left by 0.5 if negative; 0.5 < abs(initialY) < 1.0
-	double initialX = m_Perlin.noise1D(time(0))*0.75;
+	double initialX = m_Perlin.noise1D(10*time(0));
+	initialX *= 0.75;
+	initialX += 0.25 * (initialX > 0) - 0.25 * (initialX < 0);
 	m_Velocity = sf::Vector2f((float)initialX, (float)initialY); // Randomly go up or down, no lateral movement yet.
 	m_CircleShape.setPosition(m_Position);
 }
@@ -43,7 +48,10 @@ bool Note::operator==(const Note& rhs) const
 void Note::Update()
 {
 	// Reference: https://github.com/Reputeless/PerlinNoise
-	m_Velocity.x += 0.05f * m_Perlin.noise1D(m_Position.y);
+	m_XVelocityScaleFactor += X_DAMPING;
+	m_XVelocityScaleFactor = std::max(m_XVelocityScaleFactor, 0.f);
+	m_Velocity.x += m_XVelocityScaleFactor * m_Perlin.noise1D(m_Position.y);
+	m_Velocity.y += m_Velocity.y > 0 ? Y_ACCELERATION : -Y_ACCELERATION;
 	m_Position += m_Velocity;
 
 	m_CircleShape.setPosition(m_Position); //TODO: delete later

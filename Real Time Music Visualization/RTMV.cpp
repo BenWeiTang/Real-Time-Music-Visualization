@@ -12,8 +12,10 @@
 #define HOP_SIZE 8192
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
-#define POOL_SIZE 512
-#define PICKUP_THRESHOLD 2e+06
+#define POOL_SIZE 256
+#define PICKUP_THRESHOLD 1.5e+06
+#define MIN_CONNECT_DISTANCE 10.f
+#define MAX_CONNECT_DISTANCE 40.f
 
 RTMV::RTMV() :
 	m_BufferSize(BUFFER_SIZE),
@@ -278,7 +280,7 @@ void RTMV::CaptureIntervals()
 			float otherX = otherPosition.x, otherY = otherPosition.y;
 			float distance = std::sqrt(std::pow(noteX - otherX, 2) + std::pow(noteY - otherY, 2));
 			const auto midPoint = sf::Vector2f(0.5*(noteX+otherX), 0.5*(noteY+otherY));
-			if (note == other || distance > 20.f || distance < 7.5f)
+			if (note == other || distance > MAX_CONNECT_DISTANCE || distance < MIN_CONNECT_DISTANCE)
 				continue;
 
 			const auto interval = Pitch::Interval(note.GetPitch(), other.GetPitch());
