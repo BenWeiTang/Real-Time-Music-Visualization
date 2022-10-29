@@ -235,7 +235,7 @@ double RTMV::MaxFreq()
 {
 	int maxIndex = -1;
 	double maxAmp = -1.0;
-	static const int lowBound = 20 * m_BufferSize / m_SampleRate;
+	static const int lowBound = 28 * m_BufferSize / m_SampleRate; // Lowest note on a piano is 27.5 Hz
 	static const int highBound = m_BufferSize * std::min(20000u, m_HalfBufferSize) / m_SampleRate;
 	for (int i = lowBound; i < highBound; i++)
 	{
@@ -267,10 +267,14 @@ void RTMV::CaptureIntervals()
 			float noteX = notePosition.x, noteY = notePosition.y;
 			float otherX = otherPosition.x, otherY = otherPosition.y;
 			float distance = std::sqrt(std::pow(noteX - otherX, 2) + std::pow(noteY - otherY, 2));
+			const auto midPoint = sf::Vector2f(0.5*(noteX+otherX), 0.5*(noteY+otherY));
 			if (note == other || distance > 20.f || distance < 7.5f)
 				continue;
-			m_Lines.append(sf::Vertex(notePosition, sf::Color::Color(255, 255, 255, 64)));
-			m_Lines.append(sf::Vertex(otherPosition, sf::Color::Color(255, 255, 255, 64)));
+
+			const auto interval = Pitch::Interval(note.GetPitch(), other.GetPitch());
+			const auto color = Pitch::GetIntervalColor(interval);
+			m_Lines.append(sf::Vertex(notePosition, color));
+			m_Lines.append(sf::Vertex(midPoint, color));
 		}
 	}
 }
