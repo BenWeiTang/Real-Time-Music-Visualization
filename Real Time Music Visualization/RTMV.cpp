@@ -7,13 +7,13 @@
 #include "Note.hpp"
 #include "tinyfiledialogs.hpp"
 
-//#define BUFFER_SIZE 32768
 #define BUFFER_SIZE 16384
 //#define HOP_SIZE 4096
 #define HOP_SIZE 8192
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
 #define POOL_SIZE 512
+#define PICKUP_THRESHOLD 2e+06
 
 RTMV::RTMV() :
 	m_BufferSize(BUFFER_SIZE),
@@ -54,6 +54,8 @@ void RTMV::Begin()
 		return;
 
 	PlayMusic();
+	m_Window.clear();
+	m_Window.display();
 
 	while (m_Window.isOpen())
 	{
@@ -153,6 +155,10 @@ void RTMV::HandleHopping()
 		m_CurrentOffset = currentPosition;
 		STFT();
 		AddNote();
+
+		if (!m_Notes.IsReady())
+			return;
+
 		UpdateNotes();
 		CaptureIntervals();
 		Draw();
@@ -227,10 +233,14 @@ void RTMV::AddNote()
 {
 	float xPosition = SCREEN_WIDTH * 0.8 * (m_Sound.getPlayingOffset().asSeconds() / m_SoundBuffer.getDuration().asSeconds()) + SCREEN_WIDTH * 0.1;
 	float yPosition = SCREEN_HEIGHT * 0.5;
+	double maxFreq = MaxFreq();
+	if (maxFreq < 0)
+		return;
 	m_Notes.EmplaceBack(Note(MaxFreq(), sf::Vector2f(xPosition, yPosition)));
 }
 
 // Returns the frequency with the largest amplitude
+// Returns -1.0 if the max amplitude at the moment is less than PICKUP_THRESHOLD
 double RTMV::MaxFreq()
 {
 	int maxIndex = -1;
@@ -247,7 +257,7 @@ double RTMV::MaxFreq()
 		}
 	}
 	double maxFreq = maxIndex * m_CoefScaleFactor;
-	return maxFreq;
+	return maxAmp > PICKUP_THRESHOLD ? maxFreq : -1.0;
 }
 
 void RTMV::UpdateNotes()

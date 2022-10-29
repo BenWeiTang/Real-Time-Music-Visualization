@@ -19,7 +19,8 @@ Note& NotePool::Iterator::operator*() { return *m_ptr; }
 NotePool::NotePool(size_t poolSize) :
 	m_MaxSize(poolSize),
 	m_Size(0),
-	m_EndIndex(0)
+	m_EndIndex(0),
+	m_IsReady(false)
 {
 	// No default constructor for Note type so juse use malloc
 	m_Notes = (Note*)malloc(sizeof(Note) * poolSize);
@@ -33,6 +34,9 @@ NotePool::Iterator NotePool::end() const { return Iterator(m_Notes + (m_EndIndex
 
 void NotePool::EmplaceBack(Note&& note)
 {
+	if (!m_IsReady)
+		m_IsReady = true;
+
 	m_Notes[m_EndIndex] = std::move(note);
 	m_EndIndex++;
 	m_EndIndex %= m_MaxSize;
@@ -44,3 +48,5 @@ unsigned int NotePool::GetMaxSize() { return m_MaxSize; }
 unsigned int NotePool::GetSize() { return m_Size; } //TODO: can be removed later
 
 unsigned int NotePool::GetEndIndex() { return m_EndIndex; }
+
+bool NotePool::IsReady() { return m_IsReady; }
