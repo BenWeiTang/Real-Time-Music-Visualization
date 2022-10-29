@@ -9,9 +9,10 @@
 
 //#define BUFFER_SIZE 32768
 #define BUFFER_SIZE 16384
-#define HOP_SIZE 4096
-#define SCREEN_WIDTH 900
-#define SCREEN_HEIGHT 900
+//#define HOP_SIZE 4096
+#define HOP_SIZE 8192
+#define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 1080
 #define POOL_SIZE 512
 
 RTMV::RTMV() :
