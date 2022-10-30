@@ -271,7 +271,7 @@ void RTMV::UpdateNotes()
 
 void RTMV::CaptureIntervals()
 {
-	const static int recordTick = 16;
+	const static int recordTick = 64;
 	static int tick = 0;
 	for (const auto& note : m_Notes)
 	{

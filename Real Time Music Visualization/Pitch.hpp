@@ -32,29 +32,29 @@ namespace Pitch
 		switch (interval)
 		{
 		case 0:
-			return sf::Color::Color(255, 255, 255, 64); // White
+			return sf::Color::Color(255, 255, 255, 32); // White
 		case 30:
-			return sf::Color::Color(0, 255, 128, 64); // Spring Green
+			return sf::Color::Color(0, 255, 128, 32); // Spring Green
 		case 60:
-			return sf::Color::Color(0, 255, 255, 64); // Cyan
+			return sf::Color::Color(0, 255, 255, 32); // Cyan
 		case 90:
-			return sf::Color::Color(0, 128, 255, 64); // Azure
+			return sf::Color::Color(0, 128, 255, 32); // Azure
 		case 120:
-			return sf::Color::Color(0, 0, 255, 64); // Blue
+			return sf::Color::Color(0, 0, 255, 32); // Blue
 		case 150:
-			return sf::Color::Color(128, 0, 255, 64); // Violet
+			return sf::Color::Color(128, 0, 255, 32); // Violet
 		case 180 || -180:
-			return sf::Color::Color(255, 0, 255, 64); // Magenta
+			return sf::Color::Color(255, 0, 255, 32); // Magenta
 		case -30:
-			return sf::Color::Color(128, 255, 0, 64); // Chartreuse
+			return sf::Color::Color(128, 255, 0, 32); // Chartreuse
 		case -60:
-			return sf::Color::Color(255, 255, 0, 64); // Yellow
+			return sf::Color::Color(255, 255, 0, 32); // Yellow
 		case -90:
-			return sf::Color::Color(255, 128, 0, 64); // Orange
+			return sf::Color::Color(255, 128, 0, 32); // Orange
 		case -120:
-			return sf::Color::Color(255, 0, 0, 64); // Red
+			return sf::Color::Color(255, 0, 0, 32); // Red
 		case -150:
-			return sf::Color::Color(255, 0, 128, 64); // Rose
+			return sf::Color::Color(255, 0, 128, 32); // Rose
 		default:
 			break;
 		}

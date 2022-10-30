@@ -46,10 +46,7 @@ bool Note::operator==(const Note& rhs) const
 void Note::Update()
 {
 	// Reference: https://github.com/Reputeless/PerlinNoise
-	m_XVelocityScaleFactor += X_DAMPING;
-	m_XVelocityScaleFactor = std::max(m_XVelocityScaleFactor, 0.f);
-	m_Velocity.x += m_XVelocityScaleFactor * m_Perlin.noise1D(m_Position.y);
-	m_Velocity.y += m_Velocity.y > 0 ? Y_ACCELERATION : -Y_ACCELERATION;
+	m_Velocity.x = m_Perlin.noise1D(m_Position.y * 0.01f);
 	m_Position += m_Velocity;
 }
 
