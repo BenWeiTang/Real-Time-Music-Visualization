@@ -24,9 +24,9 @@ public:
 	Iterator begin() const;
 	Iterator end() const;
 	void EmplaceBack(Note&& note);
-	unsigned int GetMaxSize();
-	unsigned int GetEndIndex();
-	bool IsReady();
+	unsigned int GetMaxSize() const;
+	unsigned int GetEndIndex() const;
+	bool IsReady() const;
 private:
 	Note* m_Notes;
 	unsigned int m_MaxSize;

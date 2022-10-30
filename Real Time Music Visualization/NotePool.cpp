@@ -43,8 +43,8 @@ void NotePool::EmplaceBack(Note&& note)
 	m_Size = std::min(m_Size + 1, m_MaxSize);
 }
 
-unsigned int NotePool::GetMaxSize() { return m_MaxSize; }
+unsigned int NotePool::GetMaxSize() const { return m_MaxSize; }
 
-unsigned int NotePool::GetEndIndex() { return m_EndIndex; }
+unsigned int NotePool::GetEndIndex() const { return m_EndIndex; }
 
-bool NotePool::IsReady() { return m_IsReady; }
+bool NotePool::IsReady () const { return m_IsReady; }
