@@ -8,11 +8,11 @@ Note::Note(const double& freq, const sf::Vector2f& startPosition)
 	: m_Pitch(IdentityPitch(freq)), m_Seed(time(0)), m_Perlin({ m_Seed }), m_Position(startPosition), m_XVelocityScaleFactor(5.f)
 {
 	double initialY = m_Perlin.noise1D(m_Position.x);
-	initialY *= 0.5; // Down scale by half
-	initialY += 0.5 * (initialY > 0) - 0.5 * (initialY < 0); // Shift right by 0.5 if positive; shift left by 0.5 if negative; 0.5 < abs(initialY) < 1.0
+	//initialY *= 0.5; // Down scale by half
+	//initialY += 0.5 * (initialY > 0) - 0.5 * (initialY < 0); // Shift right by 0.5 if positive; shift left by 0.5 if negative; 0.5 < abs(initialY) < 1.0
 	double initialX = m_Perlin.noise1D(10*time(0));
-	initialX *= 0.75;
-	initialX += 0.25 * (initialX > 0) - 0.25 * (initialX < 0);
+	//initialX *= 0.75;
+	//initialX += 0.25 * (initialX > 0) - 0.25 * (initialX < 0);
 	m_Velocity = sf::Vector2f((float)initialX, (float)initialY); // Randomly go up or down, no lateral movement yet.
 }
 
