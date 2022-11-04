@@ -8,16 +8,15 @@
 #include "ColorModel.hpp"
 #include "tinyfiledialogs.hpp"
 
-#define BUFFER_SIZE 16384
-//#define HOP_SIZE 4096
-//#define HOP_SIZE 8192
-#define HOP_SIZE 4096
+#define BUFFER_SIZE 16384 // Number of samples to taker per FFT operation
+#define HOP_SIZE 4096 // Size of the hopping window. The larger the hop size, the less frequenty notes will be added
+#define FRAME_RATE_LIMIT 60 // Maximum FPS. The higer the maximum, the faster the Notes move and the more often the Intervals are captured
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
-#define POOL_SIZE 256
-#define PICKUP_THRESHOLD 1.5e+06
-#define MIN_CONNECT_DISTANCE 10.f
-#define MAX_CONNECT_DISTANCE 40.f
+#define POOL_SIZE 128 // Maximum size of NotePool
+#define PICKUP_THRESHOLD 1.5e+06 // Notes with amplitude lower than it will not be added to the NotePool
+#define MIN_CONNECT_DISTANCE 10.f // The interval of two Notes will not be captured if the distance between them is shorter than this.
+#define MAX_CONNECT_DISTANCE 40.f // The interval of two Notes will not be captured if the distance between them is longer than this.
 
 RTMV::RTMV() :
 	m_BufferSize(BUFFER_SIZE),
@@ -40,7 +39,7 @@ RTMV::RTMV() :
 	m_CurrentLines(sf::VertexArray(sf::Lines)),
 	m_PastLines(sf::VertexArray(sf::Lines))
 {
-	m_Window.setFramerateLimit(60);
+	m_Window.setFramerateLimit(FRAME_RATE_LIMIT);
 }
 
 RTMV::~RTMV()
@@ -160,13 +159,6 @@ void RTMV::HandleHopping()
 		m_CurrentOffset = currentPosition;
 		STFT();
 		AddNote();
-
-		//if (!m_Notes.IsReady())
-		//	return;
-
-		//UpdateNotes();
-		//CaptureIntervals();
-		//Draw();
 	}
 
 	if (!m_Notes.IsReady())
