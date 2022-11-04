@@ -63,6 +63,10 @@ void RTMV::Begin()
 
 	while (m_Window.isOpen())
 	{
+		// Stops the program when the music is finished playing
+		if (m_CurrentOffset + m_HalfBufferSize >= m_SampleCount)
+			break;
+
 		HandleEvents();
 		HandleHopping();
 	}
