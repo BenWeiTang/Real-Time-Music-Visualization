@@ -26,6 +26,8 @@ public:
 	void EmplaceBack(Note&& note);
 	unsigned int GetMaxSize() const;
 	unsigned int GetEndIndex() const;
+
+	// NotePool is ready when there is at least a note in it.
 	bool IsReady() const;
 private:
 	Note* m_Notes;
