@@ -1,15 +1,16 @@
 #include "ColorModel.hpp"
+#include <iostream>
 
 HSV RGB_to_HSV(const sf::Color& rgb)
 {
-	float r = rgb.r / 255.0f;
-	float g = rgb.g / 255.0f;
-	float b = rgb.b / 255.0f;
+	double r = rgb.r / 255.0;
+	double g = rgb.g / 255.0;
+	double b = rgb.b / 255.0;
 
-	float cmax = std::max(r, std::max(g, b));
-	float cmin = std::min(r, std::min(g, b));
-	float diff = cmax - cmin;
-	float h = -1.f, s = -1.f;
+	double cmax = std::max(r, std::max(g, b));
+	double cmin = std::min(r, std::min(g, b));
+	double diff = cmax - cmin;
+	double h = -1.0, s = -1.0;
 
 	if (cmax == cmin)
 		h = 0.f;
@@ -32,38 +33,39 @@ HSV RGB_to_HSV(const sf::Color& rgb)
 
 sf::Color HSV_to_RGB(const HSV& hsv)
 {
-	float c = hsv.v * hsv.s;
-	float x = c * (1 - std::abs(std::fmod((hsv.h / 60.f), 2) - 1));
-	float m = hsv.v - c;
-	float r = 0, g = 0, b = 0;
+	double h = hsv.h, s = hsv.s * 0.01, v = hsv.v * 0.01;
+	double c = v * s;
+	double x = c * (1 - std::abs(std::fmod((h / 60.0), 2) - 1));
+	double m = v - c;
+	double r = 0, g = 0, b = 0;
 
-	if (hsv.h >= 0 && hsv.h <= 60)
+	if (h >= 0 && h < 60)
 	{
 		r = c; g = x; b = 0;
 	}
-	else if (hsv.h >= 60 && hsv.h <= 120)
+	else if (h >= 60 && h < 120)
 	{
 		r = x; g = c; b = 0;
 	}
-	else if (hsv.h >= 120 && hsv.h <= 180)
+	else if (h >= 120 && h < 180)
 	{
 		r = 0; g = c; b = x;
 	}
-	else if (hsv.h >= 180 && hsv.h <= 240)
+	else if (h >= 180 && h < 240)
 	{
 		r = 0; g = x; b = c;
 	}
-	else if (hsv.h >= 240 && hsv.h <= 300)
+	else if (h >= 240 && h < 300)
 	{
 		r = x; g = 0; b = c;
 	}
-	else if (hsv.h >= 300 && hsv.h <= 360)
+	else if (h >= 300 && h < 360)
 	{
 		r = c; g = 0; b = x;
 	}
-	r = (r + m) * 255;
-	g = (g + m) * 255;
-	b = (b + m) * 255;
 
-	return sf::Color(r, g, b);
+	sf::Uint8 R = (r + m) * 255;
+	sf::Uint8 G = (g + m) * 255;
+	sf::Uint8 B = (b + m) * 255;
+	return sf::Color(R, G, B);
 }

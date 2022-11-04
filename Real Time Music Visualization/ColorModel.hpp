@@ -4,8 +4,8 @@
 
 struct HSV
 {
-	float h, s, v;
-	HSV(float h, float s, float v)
+	double h, s, v;
+	HSV(double h, double s, double v)
 		: h(h), s(s), v(v) {}
 };
 

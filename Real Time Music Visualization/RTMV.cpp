@@ -5,6 +5,7 @@
 #include <vector>
 #include "RTMV.hpp"
 #include "Note.hpp"
+#include "ColorModel.hpp"
 #include "tinyfiledialogs.hpp"
 
 #define BUFFER_SIZE 16384
