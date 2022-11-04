@@ -6,6 +6,7 @@ HSV RGB_to_HSV(const sf::Color& rgb)
 	double r = rgb.r / 255.0;
 	double g = rgb.g / 255.0;
 	double b = rgb.b / 255.0;
+	double a = rgb.a / 255.0;
 
 	double cmax = std::max(r, std::max(g, b));
 	double cmin = std::min(r, std::min(g, b));
@@ -28,12 +29,17 @@ HSV RGB_to_HSV(const sf::Color& rgb)
 
 	float v = cmax * 100;
 
-	return HSV(h, s, v);
+	return HSV(h, s, v, a);
+}
+
+HSV RGB_to_HSV(const sf::Uint8& r, const sf::Uint8& g, const sf::Uint8& b, const sf::Uint8& a)
+{
+	return RGB_to_HSV(std::move(sf::Color::Color(r,g,b,a)));
 }
 
 sf::Color HSV_to_RGB(const HSV& hsv)
 {
-	double h = hsv.h, s = hsv.s * 0.01, v = hsv.v * 0.01;
+	double h = hsv.h, s = hsv.s, v = hsv.v;
 	double c = v * s;
 	double x = c * (1 - std::abs(std::fmod((h / 60.0), 2) - 1));
 	double m = v - c;
@@ -67,5 +73,11 @@ sf::Color HSV_to_RGB(const HSV& hsv)
 	sf::Uint8 R = (r + m) * 255;
 	sf::Uint8 G = (g + m) * 255;
 	sf::Uint8 B = (b + m) * 255;
-	return sf::Color(R, G, B);
+	sf::Uint8 A = hsv.a * 255;
+	return sf::Color(R, G, B, A);
+}
+
+sf::Color HSV_to_RGB(const double& h, const double& s, const double& v, const double& a)
+{
+	return HSV_to_RGB(std::move(HSV(h, s, v, a)));
 }
