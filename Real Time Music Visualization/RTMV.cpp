@@ -10,7 +10,8 @@
 
 #define BUFFER_SIZE 16384
 //#define HOP_SIZE 4096
-#define HOP_SIZE 8192
+//#define HOP_SIZE 8192
+#define HOP_SIZE 4096
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
 #define POOL_SIZE 256
@@ -20,11 +21,11 @@
 
 RTMV::RTMV() :
 	m_BufferSize(BUFFER_SIZE),
-	m_HalfBufferSize(BUFFER_SIZE>>1),
+	m_HalfBufferSize(BUFFER_SIZE >> 1),
 	m_SampleRate(0),
 	m_Samples(nullptr),
 	m_SampleCount(0),
-	m_HopSize(1),
+	m_HopSize(HOP_SIZE),
 	m_FileName(0),
 	m_Window(
 		sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT),
@@ -160,13 +161,20 @@ void RTMV::HandleHopping()
 		STFT();
 		AddNote();
 
-		if (!m_Notes.IsReady())
-			return;
+		//if (!m_Notes.IsReady())
+		//	return;
 
-		UpdateNotes();
-		CaptureIntervals();
-		Draw();
+		//UpdateNotes();
+		//CaptureIntervals();
+		//Draw();
 	}
+
+	if (!m_Notes.IsReady())
+		return;
+
+	UpdateNotes();
+	CaptureIntervals();
+	Draw();
 }
 
 // Perform Short Time Fourier Transform
@@ -178,9 +186,9 @@ void RTMV::STFT()
 	{
 		for (int i = 0; i < m_BufferSize; i++)
 		{
-			m_WindowedSamples[i] = Complex(m_Samples[i+m_CurrentOffset-m_HalfBufferSize]*m_Hann[i], 0);
+			m_WindowedSamples[i] = Complex(m_Samples[i + m_CurrentOffset - m_HalfBufferSize] * m_Hann[i], 0);
 		}
-		
+
 	}
 	// Perform FFT on the samples
 	m_Coefficients = CArray(m_WindowedSamples.data(), m_BufferSize);
@@ -283,7 +291,7 @@ void RTMV::CaptureIntervals()
 			float noteX = notePosition.x, noteY = notePosition.y;
 			float otherX = otherPosition.x, otherY = otherPosition.y;
 			float distance = std::sqrt(std::pow(noteX - otherX, 2) + std::pow(noteY - otherY, 2));
-			const auto midPoint = sf::Vector2f(0.5*(noteX+otherX), 0.5*(noteY+otherY));
+			const auto midPoint = sf::Vector2f(0.5 * (noteX + otherX), 0.5 * (noteY + otherY));
 			if (note == other || distance > MAX_CONNECT_DISTANCE || distance < MIN_CONNECT_DISTANCE)
 				continue;
 
