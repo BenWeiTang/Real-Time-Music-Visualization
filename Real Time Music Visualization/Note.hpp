@@ -1,8 +1,7 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include "Pitch.hpp"
-#include "PerlinNoise.hpp"
+#include "Pitch.hpp" // Pitch enum
+#include "PerlinNoise.hpp" // siv::PerlinNoise
 
 class Note
 {

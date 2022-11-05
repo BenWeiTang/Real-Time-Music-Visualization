@@ -1,8 +1,8 @@
 #pragma once
 
 #include <stdlib.h> // srand, rand
-#include <time.h>
-#include "ColorModel.hpp"
+#include <time.h> // srand, rand
+#include "ColorModel.hpp" // HSV_to_RGB
 
 namespace Pitch
 {

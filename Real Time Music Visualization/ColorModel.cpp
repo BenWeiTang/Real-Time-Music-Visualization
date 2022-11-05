@@ -1,5 +1,4 @@
 #include "ColorModel.hpp"
-#include <iostream>
 
 HSV RGB_to_HSV(const sf::Color& rgb)
 {

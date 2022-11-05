@@ -1,12 +1,9 @@
 #define _USE_MATH_DEFINES
-#include <cmath>
-#include <math.h>
+#include <cmath> // PI
 #include <iostream>
-#include <vector>
 #include "RTMV.hpp"
-#include "Note.hpp"
-#include "ColorModel.hpp"
-#include "tinyfiledialogs.hpp"
+#include "ColorModel.hpp" // Capture Interval
+#include "tinyfiledialogs.hpp" // File selection
 
 #define BUFFER_SIZE 16384 // Number of samples to taker per FFT operation
 #define HOP_SIZE 4096 // Size of the hopping window. The larger the hop size, the less frequenty notes will be added

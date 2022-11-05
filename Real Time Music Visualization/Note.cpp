@@ -1,4 +1,3 @@
-#include <cmath>
 #include "Note.hpp"
 
 #define X_MIN_VELOCITY_PERC 0.2

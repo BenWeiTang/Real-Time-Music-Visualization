@@ -1,14 +1,11 @@
 #pragma once
 
-#include <complex>
-#include <valarray>
-#include <unordered_map>
-#include <vector>
-#include <deque>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include "Note.hpp"
-#include "NotePool.hpp"
+#include <complex> // Complex array for FFT
+#include <valarray> // Complex array for FFT
+#include <vector> // Windowed samples
+#include <SFML/Graphics.hpp> // VertexArray
+#include <SFML/Audio.hpp> // Sound, SoundBuffer
+#include "NotePool.hpp" // NotePool class
 
 typedef std::complex<double> Complex;
 typedef std::valarray<Complex> CArray;
