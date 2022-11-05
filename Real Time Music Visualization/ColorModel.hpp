@@ -10,7 +10,7 @@ struct HSV
 	// h: [0, 360], s: [0, 1], v: [0, 1], a: [0, 1]
 	HSV(double h, double s, double v, double a = 1.0)
 		: h(std::clamp(h, 0.0, 360.0))
-		, s(std::clamp(h, 0.0, 1.0))
+		, s(std::clamp(s, 0.0, 1.0))
 		, v(std::clamp(v, 0.0, 1.0))
 		, a(std::clamp(a, 0.0, 1.0))
 	{}
