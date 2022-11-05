@@ -5,13 +5,14 @@
 #include "ColorModel.hpp" // Capture Interval
 #include "tinyfiledialogs.hpp" // File selection
 
-#define BUFFER_SIZE 16384 // Number of samples to taker per FFT operation
-#define HOP_SIZE 4096 // Size of the hopping window. The larger the hop size, the less frequenty notes will be added
-#define FRAME_RATE_LIMIT 60 // Maximum FPS. The higer the maximum, the faster the Notes move and the more often the Intervals are captured
+#define BUFFER_SIZE 16384 // Number of samples to taker per FFT operation.
+#define HOP_SIZE 4096 // Size of the hopping window. The larger the hop size, the less frequenty notes will be added.
+#define FRAME_RATE_LIMIT 60 // Maximum FPS. The higer the maximum, the faster the Notes move and the more often the Intervals are captured.
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
-#define POOL_SIZE 128 // Maximum size of NotePool
-#define PICKUP_THRESHOLD 1.5e+06 // Notes with amplitude lower than it will not be added to the NotePool
+#define POOL_SIZE 128 // Maximum size of NotePool.
+#define PICKUP_THRESHOLD 1.5e+06 // Notes with amplitude lower than it will not be added to the NotePool.
+#define CAPTURE_PERIOD 8 // The period of the capturing cycle, the larger the number, the less often the notes are captured. Be wary of low values as this can make the program memory expensive
 #define MIN_CONNECT_DISTANCE 10.f // The interval of two Notes will not be captured if the distance between them is shorter than this.
 #define MAX_CONNECT_DISTANCE 40.f // The interval of two Notes will not be captured if the distance between them is longer than this.
 
@@ -273,7 +274,6 @@ void RTMV::UpdateNotes()
 
 void RTMV::CaptureIntervals()
 {
-	const static int recordTick = 32;
 	static int tick = 0;
 	for (const auto& note : m_Notes)
 	{
@@ -293,14 +293,14 @@ void RTMV::CaptureIntervals()
 			m_CurrentLines.append(sf::Vertex(notePosition, color));
 			m_CurrentLines.append(sf::Vertex(midPoint, color));
 
-			if (tick > recordTick)
+			if (tick > CAPTURE_PERIOD)
 			{
 				m_PastLines.append(sf::Vertex(notePosition, color));
 				m_PastLines.append(sf::Vertex(midPoint, color));
 			}
 		}
 	}
-	if (tick++ > recordTick)
+	if (tick++ > CAPTURE_PERIOD)
 		tick = 0;
 }
 
