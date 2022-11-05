@@ -8,6 +8,26 @@ The is a rendition project of one of my previous works [Music Visualization](htt
 
 ## Dev Notes
 
+### Nov 4, 2022
+
+Improvements this week:
+- The histories of the lines are now kept track of and will be continuously drawn on the canvas.
+- The interval between two notes now correlates to its respective color on the color wheel.
+  - The color model in use is HSV, which is then translated to RGB to fit SFML's default color model.
+  - A perfect unison is represented by a very tinted hue very close to white.
+  - The hue for a perfect unison of each play session is randomly generated.
+  - As the interval increases, the hue deviates from the hue of the perfect unision.
+  - If the interval is up a perfect fifth, for example, the hue rotates clockwise a step. If the interval is down a perfect fifth (or up a perfect fourth), the hue rotates counterclockwise a step.
+  - The saturation increases with the interval while the value decreases accordingly.
+  - Memory usage is temporarily moderated by controlling the capturing rate. The program can now play an audio file of length 4 minutes with about 800 MB memory use at max.
+
+Future goals:
+- Halve the memory usage.
+  - A possible solution is to use `sf::VertextBuffer` to replace a portion of entries in currently used `sf::VertexArray`.
+- Allow for saving the canvas upon finishing playing the audio file by the user.
+
+https://user-images.githubusercontent.com/78770681/200097389-bb4503a2-2cee-4b1d-bcd3-c095cc61a95f.mp4
+
 ### Oct 27, 2022
 
 The issue with mono audio file is tmeporarily solved by halving the buffer size. Stereo audio files will still result in snappier animation, but those resulting from mono audio files are visually good enough for now.
