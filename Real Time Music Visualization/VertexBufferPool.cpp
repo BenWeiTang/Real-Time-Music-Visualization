@@ -20,6 +20,8 @@ VertexBufferPool::~VertexBufferPool()
 
 std::vector<sf::VertexBuffer*> VertexBufferPool::GetSubPools() const { return m_SubPools; }
 
+unsigned int VertexBufferPool::GetSubPoolCount() const { return m_SubPools.size(); }
+
 void VertexBufferPool::AddSubPool(const sf::VertexArray& vertexArray)
 {
 	// Heap allocation

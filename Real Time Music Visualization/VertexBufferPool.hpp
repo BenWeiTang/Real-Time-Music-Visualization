@@ -9,6 +9,7 @@ public:
 	VertexBufferPool(unsigned int subPoolSize);
 	~VertexBufferPool();
 	std::vector<sf::VertexBuffer*> GetSubPools() const;
+	unsigned int GetSubPoolCount() const;
 	void AddSubPool(const sf::VertexArray& vertexArray);
 private:
 	const sf::VertexBuffer::Usage c_Usage;
