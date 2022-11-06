@@ -36,7 +36,7 @@ RTMV::RTMV() :
 	m_CoefScaleFactor(0),
 	m_Notes(POOL_SIZE),
 	m_CurrentLines(sf::VertexArray(sf::Lines)),
-	m_PastLineCache(sf::VertexArray(sf::Lines)),
+	m_PastLineCache(sf::VertexArray(sf::Lines, VERTEX_BUFFER_POOL_SIZE)),
 	m_LineHistory(VERTEX_BUFFER_POOL_SIZE)
 {
 	m_Window.setFramerateLimit(FRAME_RATE_LIMIT);
