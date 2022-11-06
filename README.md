@@ -8,6 +8,14 @@ The is a rendition project of one of my previous works [Music Visualization](htt
 
 ## Dev Notes
 
+### Nov 5, 2022
+
+Improvements:
+- Memory usage now plateaus around 178 MB.
+  - The underlying implementation is to periodically offload the vertices to the GPU using a `sf::VertexBuffer` instead of constantly adding to a `sf::VertexArray` which had been the previous approach.
+  - Unlike a dynamic array, a `sf::VertexBuffer` has a fixed size. Therefore, the current implementation is to bundle enough vertices into a sub pool. And then upon drawing, the program iterates through a pool of sub pools to draw all the stored vertices. 
+- The memory usage can be even lower if configured to do so, but the side effect of doing so is currently unknown.
+
 ### Nov 4, 2022
 
 Improvements this week:
@@ -23,7 +31,7 @@ Improvements this week:
 
 Future goals:
 - Halve the memory usage.
-  - A possible solution is to use `sf::VertextBuffer` to replace a portion of entries in currently used `sf::VertexArray`.
+  - A possible solution is to use `sf::VertexBuffer` to replace a portion of entries in currently used `sf::VertexArray`.
 - Allow for saving the canvas upon finishing playing the audio file by the user.
 
 https://user-images.githubusercontent.com/78770681/200097389-bb4503a2-2cee-4b1d-bcd3-c095cc61a95f.mp4
