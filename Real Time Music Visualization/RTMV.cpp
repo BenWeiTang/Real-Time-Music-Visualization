@@ -35,7 +35,7 @@ RTMV::RTMV() :
 	m_CoefScaleFactor(0),
 	m_Notes(POOL_SIZE),
 	m_CurrentLines(sf::VertexArray(sf::Lines)),
-	m_PastLines(sf::VertexArray(sf::Lines))
+	m_PastLineCache(sf::VertexArray(sf::Lines))
 {
 	m_Window.setFramerateLimit(FRAME_RATE_LIMIT);
 }
@@ -295,8 +295,8 @@ void RTMV::CaptureIntervals()
 
 			if (tick > CAPTURE_PERIOD)
 			{
-				m_PastLines.append(sf::Vertex(notePosition, color));
-				m_PastLines.append(sf::Vertex(midPoint, color));
+				m_PastLineCache.append(sf::Vertex(notePosition, color));
+				m_PastLineCache.append(sf::Vertex(midPoint, color));
 			}
 		}
 	}
@@ -308,7 +308,7 @@ void RTMV::Draw()
 {
 	m_Window.clear();
 	m_Window.draw(m_CurrentLines);
-	m_Window.draw(m_PastLines);
+	m_Window.draw(m_PastLineCache);
 	m_Window.display();
 	m_CurrentLines.clear();
 }

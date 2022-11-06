@@ -30,7 +30,7 @@ private:
 	double m_CoefScaleFactor;
 	NotePool m_Notes;
 	sf::VertexArray m_CurrentLines;
-	sf::VertexArray m_PastLines;
+	sf::VertexArray m_PastLineCache;
 
 
 public:
