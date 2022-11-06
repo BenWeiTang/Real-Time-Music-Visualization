@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp> // VertexArray
 #include <SFML/Audio.hpp> // Sound, SoundBuffer
 #include "NotePool.hpp" // NotePool class
+#include "VertexBufferPool.hpp" // Line Histories
 
 typedef std::complex<double> Complex;
 typedef std::valarray<Complex> CArray;
@@ -31,7 +32,7 @@ private:
 	NotePool m_Notes;
 	sf::VertexArray m_CurrentLines;
 	sf::VertexArray m_PastLineCache;
-
+	VertexBufferPool m_LineHistory;
 
 public:
 	RTMV();

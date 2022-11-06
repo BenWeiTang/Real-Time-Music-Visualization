@@ -15,6 +15,7 @@
 #define CAPTURE_PERIOD 8 // The period of the capturing cycle, the larger the number, the less often the notes are captured. Be wary of low values as this can make the program memory expensive
 #define MIN_CONNECT_DISTANCE 10.f // The interval of two Notes will not be captured if the distance between them is shorter than this.
 #define MAX_CONNECT_DISTANCE 40.f // The interval of two Notes will not be captured if the distance between them is longer than this.
+#define VERTEX_BUFFER_POOL_SIZE 4096 // The size of each sub pool in the VertexBufferPool. The larger the size, the more to copy each time but less often.
 
 RTMV::RTMV() :
 	m_BufferSize(BUFFER_SIZE),
@@ -35,7 +36,8 @@ RTMV::RTMV() :
 	m_CoefScaleFactor(0),
 	m_Notes(POOL_SIZE),
 	m_CurrentLines(sf::VertexArray(sf::Lines)),
-	m_PastLineCache(sf::VertexArray(sf::Lines))
+	m_PastLineCache(sf::VertexArray(sf::Lines)),
+	m_LineHistory(VERTEX_BUFFER_POOL_SIZE)
 {
 	m_Window.setFramerateLimit(FRAME_RATE_LIMIT);
 }
@@ -297,6 +299,12 @@ void RTMV::CaptureIntervals()
 			{
 				m_PastLineCache.append(sf::Vertex(notePosition, color));
 				m_PastLineCache.append(sf::Vertex(midPoint, color));
+
+				if (m_PastLineCache.getVertexCount() > VERTEX_BUFFER_POOL_SIZE)
+				{
+					m_LineHistory.AddSubPool(m_PastLineCache);
+					m_PastLineCache.clear();
+				}
 			}
 		}
 	}
@@ -309,6 +317,10 @@ void RTMV::Draw()
 	m_Window.clear();
 	m_Window.draw(m_CurrentLines);
 	m_Window.draw(m_PastLineCache);
+	for (int i = 0; i < m_LineHistory.GetSubPoolCount(); i++)
+	{
+		m_Window.draw(*m_LineHistory.GetSubPools()[i]);
+	}
 	m_Window.display();
 	m_CurrentLines.clear();
 }
