@@ -26,12 +26,9 @@ void VertexBufferPool::AddSubPool(const sf::VertexArray& vertexArray)
 {
 	// Heap allocation
 	sf::VertexBuffer* buffer = new sf::VertexBuffer(c_Type, c_Usage);
-
-	//TODO: maybe this is not needed?
 	buffer->create(c_SubPoolSize);
 
 	// Underlying data structure of VertexArray is std::vector which should be contiguous; fingers crossed
 	buffer->update(&vertexArray[0], c_SubPoolSize, 0); 
-
 	m_SubPools.emplace_back(std::move(buffer));
 }
