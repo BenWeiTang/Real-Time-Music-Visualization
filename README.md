@@ -12,9 +12,9 @@ The is a rendition project of one of my previous works [Music Visualization](htt
 
 Improvements:
 - Memory usage now plateaus around 178 MB.
-  - The underlying implementation is to periodically offload the vertices to the GPU using a `sf::VertexBuffer` instead of constantly adding to a `sf::VertexArray` which had been the previous approach.
-  - Unlike a dynamic array, a `sf::VertexBuffer` has a fixed size. Therefore, the current implementation is to bundle enough vertices into a sub pool. And then upon drawing, the program iterates through a pool of sub pools to draw all the stored vertices. 
-- The memory usage can be even lower if configured to do so, but the side effect of doing so is currently unknown.
+  - The underlying implementation is to periodically offload the vertices to the GPU using a `sf::VertexBuffer` instead of continuously adding to a `sf::VertexArray` which had been the previous approach.
+  - Unlike a dynamic array, a `sf::VertexBuffer` has a fixed size. Therefore, the current implementation is to bundle enough vertices into a sub pool. And then upon drawing, the program iterates through a pool of sub pools to draw all the stored vertices.
+  - For more details, see [line 298 - 308](https://github.com/BenWeiTang/Real-Time-Music-Visualization/blob/main/Real%20Time%20Music%20Visualization/RTMV.cpp#L298-L308) in [RTMV.cpp](https://github.com/BenWeiTang/Real-Time-Music-Visualization/blob/main/Real%20Time%20Music%20Visualization/RTMV.cpp).
 
 ### Nov 4, 2022
 
