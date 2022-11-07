@@ -300,7 +300,7 @@ void RTMV::CaptureIntervals()
 				m_PastLineCache.append(sf::Vertex(notePosition, color));
 				m_PastLineCache.append(sf::Vertex(midPoint, color));
 
-				if (m_PastLineCache.getVertexCount() > VERTEX_BUFFER_POOL_SIZE)
+				if (m_PastLineCache.getVertexCount() == VERTEX_BUFFER_POOL_SIZE)
 				{
 					m_LineHistory.AddSubPool(m_PastLineCache);
 					m_PastLineCache.clear();
