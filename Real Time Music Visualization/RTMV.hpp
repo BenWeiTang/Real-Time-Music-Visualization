@@ -53,4 +53,5 @@ private:
 	void UpdateNotes();
 	void CaptureIntervals();
 	void Draw();
+	void SaveScreenshot();
 };
