@@ -1,6 +1,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath> // PI
 #include <iostream>
+#include <string>
 #include "RTMV.hpp"
 #include "ColorModel.hpp" // Capture Interval
 #include "tinyfiledialogs.hpp" // File selection
@@ -329,17 +330,29 @@ void RTMV::Draw()
 
 void RTMV::SaveScreenshot()
 {
+	// Create an Image object
 	const sf::Vector2u windowSize = m_Window.getSize();
 	sf::Texture texture;
 	texture.create(windowSize.x, windowSize.y);
 	texture.update(m_Window);
 	const sf::Image image = texture.copyToImage();
+
+	// Format default file name (full path)
+	std::string defaultFileName(m_FileName);
+	defaultFileName.resize(defaultFileName.size() - std::strlen(".wav")); // Get rid of ".wav" at the end
+
+	// Format destination file name (full path)
 	const char* pattern[1] = { "*.png" };
-	const char* saveFileName = tinyfd_saveFileDialog("Save Current Screenshot", NULL, 1, pattern, "PNG file");
+	const char* saveFileName = tinyfd_saveFileDialog("Save Current Screenshot", defaultFileName.c_str(), 1, pattern, "PNG file");
 	
+	// If confirmed to save, save the file to destination
 	if (saveFileName != NULL)
 	{
 		image.saveToFile(saveFileName);
 		std::cout << "Saved to file: " << saveFileName << std::endl;
+	}
+	else
+	{
+		std::cout << "No path was specified for the screenshot. Exit program." << std::endl;
 	}
 }
