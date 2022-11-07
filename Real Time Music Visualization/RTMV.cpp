@@ -70,6 +70,8 @@ void RTMV::Begin()
 		HandleEvents();
 		HandleHopping();
 	}
+
+	SaveScreenshot();
 }
 
 // Initialize the lookup table of Hann window function
@@ -323,4 +325,21 @@ void RTMV::Draw()
 	}
 	m_Window.display();
 	m_CurrentLines.clear();
+}
+
+void RTMV::SaveScreenshot()
+{
+	const sf::Vector2u windowSize = m_Window.getSize();
+	sf::Texture texture;
+	texture.create(windowSize.x, windowSize.y);
+	texture.update(m_Window);
+	const sf::Image image = texture.copyToImage();
+	const char* pattern[1] = { "*.png" };
+	const char* saveFileName = tinyfd_saveFileDialog("Save Current Screenshot", NULL, 1, pattern, "PNG file");
+	
+	if (saveFileName != NULL)
+	{
+		image.saveToFile(saveFileName);
+		std::cout << "Saved to file: " << saveFileName << std::endl;
+	}
 }
