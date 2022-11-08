@@ -38,8 +38,8 @@ namespace Pitch
 		const static double saturation = 0.125; // Saturation for perfect unisons
 		const static double value = 1.0; // Value for perfect unisons
 		const static double alpha = 0.125; // Alpha for all
-		const static double hueStep = 90.0 / 6.0; // When interval is 180 deg apart (6 steps), rotate around the color wheel 90 deg
-		const static double satStep = 1.0 / 12.0; // When interval is 180 deg apart (6 steps), saturation should increase by 50%, thus divided by 12 (6 x 2)
+		const static double hueStep = 180.0 / 6.0; // When interval is 180 deg apart (6 steps), rotate around the color wheel 180 deg
+		const static double satStep = 1.0 / 12.0; // When interval is 180 deg apart (6 steps), saturation should increase by 0.5, thus divided by 12 (6 x 2)
 		const static double valueStep = value / 12.0; // When interval is 180 deg apart (6 steps), value should be halved, thus divided by 12 (6 x 2)
 		switch (interval)
 		{
