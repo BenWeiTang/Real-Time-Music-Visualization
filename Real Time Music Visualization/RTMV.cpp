@@ -72,7 +72,9 @@ void RTMV::Begin()
 		HandleHopping();
 	}
 
-	SaveScreenshot();
+	// Only take a screenshot when the music is finished playing; not when the user closes the window
+	if (m_CurrentOffset + m_HalfBufferSize >= m_SampleCount)
+		SaveScreenshot();
 }
 
 // Initialize the lookup table of Hann window function
