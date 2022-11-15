@@ -8,13 +8,18 @@ The is a rendition project of one of my previous works [Music Visualization](htt
 
 ## Dev Notes
 
+### Nov 15, 2022
+
+Improvement:
+- Implemented mechanism of saving images after finishing playing an audio file.
+
 ### Nov 5, 2022
 
 Improvements:
 - Memory usage now plateaus around 178 MB.
   - The underlying implementation is to periodically offload the vertices to the GPU using a `sf::VertexBuffer` instead of continuously adding to a `sf::VertexArray` which had been the previous approach.
   - Unlike a dynamic array, a `sf::VertexBuffer` has a fixed size. Therefore, the current implementation is to bundle enough vertices into a sub pool. And then upon drawing, the program iterates through a pool of sub pools to draw all the stored vertices.
-  - For more details, see [line 301 - 311](https://github.com/BenWeiTang/Real-Time-Music-Visualization/blob/main/Real%20Time%20Music%20Visualization/RTMV.cpp#L301-L311) in [RTMV.cpp](https://github.com/BenWeiTang/Real-Time-Music-Visualization/blob/main/Real%20Time%20Music%20Visualization/RTMV.cpp).
+  - For more details, see [VertexBufferPool.hpp](https://github.com/BenWeiTang/Real-Time-Music-Visualization/blob/main/Real%20Time%20Music%20Visualization/VertexBufferPool.hpp) and [VertexBufferPool.cpp](https://github.com/BenWeiTang/Real-Time-Music-Visualization/blob/main/Real%20Time%20Music%20Visualization/VertexBufferPool.cpp).
 
 ### Nov 4, 2022
 
