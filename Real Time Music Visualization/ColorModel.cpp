@@ -13,7 +13,7 @@ HSV RGB_to_HSV(const sf::Color& rgb)
 	double h = -1.0, s = -1.0;
 
 	if (cmax == cmin)
-		h = 0.f;
+		h = 0.0;
 	else if (cmax == r)
 		h = std::fmod(60 * ((g - b) / diff) + 360, 360);
 	else if (cmax == g)
@@ -22,7 +22,7 @@ HSV RGB_to_HSV(const sf::Color& rgb)
 		h = std::fmod(60 * ((r - g) / diff) + 240, 360);
 
 	if (cmax == 0)
-		s = 0.f;
+		s = 0.0;
 	else
 		s = (diff / cmax) * 100;
 
