@@ -42,7 +42,7 @@ That is too dense for my taste. Also, if we draw too many lines, there might be 
 <img width="50%" height="50%" src="https://user-images.githubusercontent.com/78770681/219546520-d59c26fc-dc88-4bbb-be41-3638b7ce4842.gif">
 </p>
 
-This is basically a die-down version of what you see above.
+This is basically a die-down version of what you see in Overview.
 
 ### What About the Entire Song?
 
