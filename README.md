@@ -70,11 +70,11 @@ Kinda cool already, right?
 
 ### Intervals As Colors
 
-So far, it is interesting to see the interactions amongst notes over time, and that in and of itself also tells about the intensity of the music throughout the music. Check out this example in [my old project](https://github.com/BenWeiTang/Music-Visualization/blob/main/Examples/Merry_Christmas_Mr_Lawrence.pdf). The idea is that the more notes that are played within a certain window, the more lines that are drawn. On the contrary, if the music is just silence, not line will be there.
+So far, it is interesting to see the interactions amongst notes over time, and that in and of itself also tells about the intensity of the music over time. Check out this example in [my old project](https://github.com/BenWeiTang/Music-Visualization/blob/main/Examples/Merry_Christmas_Mr_Lawrence.pdf). The idea is that the more notes that are played within a certain window, the more lines that are drawn. On the contrary, if the music is just silence, not line will be there.
 
 However, we are still interested in visualizing the quality of the sound. Remember that how notes are to each other is more important than just understanding the notes in isolation.
 
-In music theory, the distance between two notes is called an **interval**. There are many kinds of intervals and each of them has a unique quality. Some intervals sound more pleasant than the others. Some intervals create tensions while the others present resolutions. We will come back to intervals in just a bit because we have to look at another concept first, the Circle of Fifths.
+In music theory, the distance between two notes is called an **interval**. There are many kinds of intervals and each of them has a unique quality. Some intervals sound more pleasant than the others. Some intervals create tensions while the others provide resolutions. One way to organize these qualities is to use the Circle of Fifths.
 
 <p align="center">
 <img width="50%" height="50%" src="https://user-images.githubusercontent.com/78770681/219546849-f1bb6a22-8d46-4563-bf26-428a8af70093.png">
@@ -82,9 +82,9 @@ In music theory, the distance between two notes is called an **interval**. There
 
 This is an oversimplified version of the Circle of Fifths, but for the purpose of this project, this will suffice. The letters you see are the twelve unique notes in Western Music. In short, there are only twelve notes and the rest are just variations of these twelve notes.
 
-As you can see, the notes are not arranged in an alphabetical order. In fact, they are arranged in a way so that the neighboring note in the clockwise rotation is a **perfect fifth** away. For example, the note G is a perfect fifth away from the note C, and the note Ab is a perfect fifth away from the note Db.
+As you can see, the notes are not arranged in an alphabetical order. In fact, they are arranged in a way so that the neighboring note in the clockwise rotation is a **perfect fifth** away, and a perfect fifth is an **interval**. For example, the note G is a perfect fifth away from the note C, and the note Ab is a perfect fifth away from the note Db.
 
-A perfect fifth is an interval, one that is stable and calming, if you will. As a side note, a step counterclockwise will result in a **perfect fourth**. So, F is a perfect fourth away from C. A perfect fourth also sounds pretty good. For this reason, notes next to each other sound better when played together. On the other hand, notes that are many steps apart on the Circle can make you feel uneasy.
+A perfect fifth is an interval that is characterized as stable, calming, and grand, if you will. As a side note, a step counterclockwise will result in a **perfect fourth**. So, F is a perfect fourth away from C. A perfect fourth also sounds pretty good. For this reason, notes next to each other sound better when played together. On the other hand, notes that are many steps apart on the Circle can make you feel uneasy.
 
 (FYI, the notes on the opposite ends create a kind of interval called **tritones**. They have their uses in music, but that is out of scope for this project.)
 
@@ -99,6 +99,8 @@ Take a look again at the Circle, and find C, G, and B. G is only a step away fro
 Here I changed from using steps to angles, but the concept is the same: a step is just 30° delta. (360° divided by 12 is 30°.) The farther away the two notes on the Circle, the larger the absolute value of the angle between.
 
 So at this point, I hope it is obvious enough that the concept of the Circle of Fifth is not so dissimilar to the concept of the color wheel. The closer, the more analogous; the farther, the more complementary.
+
+It is important to take the time to consider what is happening here. **The notes themselves *DO NOT* have their own designated colors. It is the *interval* between two notes that is given a specific color. And this specific color has to do with the type of the interval.** Different intervals sound differently, so we want to give them different colors to represent that. Again, we are interested in the interconnectedness of notes, not simply notes themselves.
 
 For that, we can map every interval to a color using the color wheel. We first randomly pick a hue for the zero-step interval—also called a **perfect unison**. (So many perfect intervals, I know.)  And then, we branch out to find more colors until we exhaust all intervals. Something like this:
 
