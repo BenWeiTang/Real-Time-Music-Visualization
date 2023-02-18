@@ -140,6 +140,36 @@ With some more fine-tuning, we get what is shown in Overview.
 
 I hope you enjoy it!
 
+## Circular Cache
+
+One premise of drawing a line is to know where the two circles are located. Every time we want to capture all the possible lines, we have to loop through all the circles, and in each iteration, we also have to loop through all the other circles to checks whether a line can be drawn between each and every pair of circles there exist. In short, this is an O(n^2) operation that is being done multiple times per second. Not efficient at all. And it gets worse as the music continues to play and more notes get detected and added to the calculation.
+
+Luckily, based on what we know about the drifting behavior of a note (as shown in [What About The Entire Song?](https://github.com/BenWeiTang/Real-Time-Music-Visualization/edit/main/README.md#what-about-the-entire-song)), we can conclude that a note doesn't move horizontally as much as it does vertically. Therefore, two notes that are played far apart across the timeline are not likely to interact with each other. This is good news for us because it means that as time goes by, we can start to ignore the earlier notes. By ignore I mean not updating the notes' movements and not checking them for intersections.
+
+If we only loop through a finite number of notes each time, the runtime is suddenly reduced to O(1). Better yet, if we continue to ignore earlier notes, lines on the left side will stop stretching out and we get a more balanced picture.
+
+To do that, we want to create a cache for a collection of notes. We only want to update notes that are present in the cache. Also, only their intersections are examined.
+
+In this system, when a new note is detected, it gets added to the cache for calculation. We can construct a mental image of this by using a circular structure. Like this:
+
+<div align="center">
+<video src="https://user-images.githubusercontent.com/78770681/219882614-e1fd7f14-d08e-4f22-8251-5efe02102357.mp4">
+</div>
+
+Internally, it is just an array with a pointer that cycles and tracks where to put the upcoming note. The pointer is represented by the red triangle rotating around the cache. Older notes fade out more than new notes in opacity to indicate that they are not as *fresh*.
+
+If the cache is full and a new note pops up, the new note takes the place of the oldest note in the cache. Like this:
+
+<div align="center">
+<video src="https://user-images.githubusercontent.com/78770681/219884975-fa1bfad7-b136-451e-a36d-e04dad93c533.mp4">
+</div>
+
+On a more technical note (haha very funny), adding a note is done by calling [NotePool::EmplaceBack](https://github.com/BenWeiTang/Real-Time-Music-Visualization/blob/6ef2eee66cc64d24a8ff405f3a83ae3ac40c7e65/Real%20Time%20Music%20Visualization/NotePool.cpp#L35) where `NotePool` is the circular cache ADT and `EmplaceBack` indicates that move semantics are used. Because it uses the move semantics, the older data simply gets overwritten. And since the internal array stores the instances of the [Note](https://github.com/BenWeiTang/Real-Time-Music-Visualization/blob/main/Real%20Time%20Music%20Visualization/Note.hpp) class not just pointers to the instances, it means there is no memory leaks, either.
+
+In summary, by only keeping an eye out for the newer notes, we avoid the burden of combinatorial explosion while making sure the line distribution across the canvas is balanced.
+
+## GPU Rendering
+
 ## Dev Notes
 
 ### Nov 15, 2022
