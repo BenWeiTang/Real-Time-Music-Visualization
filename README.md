@@ -18,6 +18,10 @@ Right now, I’m omitting a lot of technicalities because I only understand FFT 
 
 If we keep running FFT over every second of the music while it plays, we essentially get a bunch of music notes that are being played (or sung). It is as though we reverse-engineered the audio back into sheet music.
 
+<div align="center">
+<video src="https://user-images.githubusercontent.com/78770681/219908121-4bebf246-49e6-4640-9bc3-6113dea56a65.mp4">
+</div>
+
 ### How Notes Interact
 
 One way to think about music is to think about the notes in relation to other notes, not in isolation. So, we can approach visualizing music by visualizing the interactions between different notes.
