@@ -92,9 +92,15 @@ A perfect fifth is an interval that is characterized as stable, calming, and gra
 
 (FYI, the notes on the opposite ends create a kind of interval called **tritones**. They have their uses in music, but that is out of scope for this project.)
 
-The reason why I bring up the Circle of Fifth is that it gives us a way to look at distances between notes and how they will make us feel. It is an easy way to quantify the quality of intervals. If two notes in our 2D space are close enough and a line is drawn to connect their centers, it is an opportunity for us to visualize this connection because we now know how stable or unstable these two notes will sound together. We just have to look up their positions on the Circle of Fifth.
+The reason why I bring up the Circle of Fifth is that it gives us a way to look at distances between notes and how they will make us feel. It is an easy way to quantify the quality of intervals. If two notes in our 2D space are close enough and a line is drawn to connect their centers, it is an opportunity to visualize this connection because we now know how stable or unstable these two notes will sound together. We just have to look up their positions on the Circle of Fifth.
 
-Take a look again at the Circle, and find C, G, and B. G is only a step away from C while B is five steps away from C. This means B and C probably won’t sound as stable as C and G. We can generalize the process that we just did into a graph like this:
+More specifically, we are interested in the acute angle between two notes on the Circle of Fifth. Like this:
+
+<p align="center">
+<img width="50%" height="50%" src="https://user-images.githubusercontent.com/78770681/219975490-9a0e078d-fd3a-480b-80da-39879ee89703.gif">
+</p>
+
+We can generalize all cases we get from the above illustration into a diagram like this:
 
 <p align="center">
 <img width="50%" height="50%" src="https://user-images.githubusercontent.com/78770681/219546883-d6cf69c5-4a0b-40fa-8420-40068e79ef02.png">
